@@ -1,0 +1,4 @@
+See file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainArmeabiDebugAllSharedLibrary/output.txt for all output for linkMainArmeabiDebugAllSharedLibrary.
+linking libmain.so successful.
+
+Finished linkMainArmeabiDebugAllSharedLibrary, see full log file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainArmeabiDebugAllSharedLibrary/output.txt.

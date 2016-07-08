@@ -1,0 +1,4 @@
+See file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainMipsDebugAllSharedLibrary/output.txt for all output for linkMainMipsDebugAllSharedLibrary.
+linking libmain.so successful.
+
+Finished linkMainMipsDebugAllSharedLibrary, see full log file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainMipsDebugAllSharedLibrary/output.txt.

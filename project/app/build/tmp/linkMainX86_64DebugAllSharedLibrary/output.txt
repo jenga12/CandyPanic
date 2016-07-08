@@ -1,0 +1,4 @@
+See file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainX86_64DebugAllSharedLibrary/output.txt for all output for linkMainX86_64DebugAllSharedLibrary.
+linking libmain.so successful.
+
+Finished linkMainX86_64DebugAllSharedLibrary, see full log file:///C:/git_repository/CandyPanic/project/app/build/tmp/linkMainX86_64DebugAllSharedLibrary/output.txt.

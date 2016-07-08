@@ -1,0 +1,8 @@
+See file:///C:/git_repository/CandyPanic/project/app/build/tmp/compileMainMipsDebugAllSharedLibraryMainMainCpp/output.txt for all output for compileMainMipsDebugAllSharedLibraryMainMainCpp.
+compiling MainManager.cpp successful.
+C:\git_repository\CandyPanic\project\app\src\main\jni\Framework\MainManager.cpp:12:22: warning: missing terminating " character
+ #include "renderer.h""
+                      ^
+C:\git_repository\CandyPanic\project\app\src\main\jni\Framework\MainManager.cpp:12:22: warning: extra tokens at end of #include directive
+
+Finished compileMainMipsDebugAllSharedLibraryMainMainCpp, see full log file:///C:/git_repository/CandyPanic/project/app/build/tmp/compileMainMipsDebugAllSharedLibraryMainMainCpp/output.txt.
