@@ -10,7 +10,6 @@
 #include "game.h"
 #include "Framework/2DSprite.h"
 #include "Framework/MainManager.h"
-#include "result.h"
 
 
 /******************************************************************************/
@@ -47,11 +46,7 @@ CGame :: CGame(){
 * 内容：初期化処理
 */
 int CGame :: Init(void){
-	Vec2 size(1280.0f, 720.0f);
-	Vec2 pos(640.0f, 360.0f);
-	m_pTestSprite = C2DSprite :: Create("game.img", &size, 1);
-	m_pTestSprite->SetPosition(&pos);
-	m_pTestSprite->LinkList(OBJECT_2D_UNKNOWN);
+
 	return 0;
 }
 
@@ -61,7 +56,7 @@ int CGame :: Init(void){
  * 内容：終了処理
  */
 void CGame :: Final(void){
-	m_pTestSprite->Release();
+
 }
 
 /*
@@ -70,11 +65,7 @@ void CGame :: Final(void){
  * 内容：更新処理
  */
 void CGame :: Update(void){
-	const INPUT *pInput = CMainManager :: GetInput();
 
-	if(pInput[0].flag == 1){
-		CStateManager :: SetNextState(new CResult());
-	}
 }
 
 /*

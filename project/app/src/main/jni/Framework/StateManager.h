@@ -29,7 +29,6 @@ enum STATE_NAME {
 	STATE_UNKNOWN = 0,		// よくわからないステート
 	STATE_TITLE,			// タイトル画面
 	STATE_GAME,			// ゲーム画面
-	STATE_RESULT,			// リザルト画面
 	STATE_MAX
 };
 

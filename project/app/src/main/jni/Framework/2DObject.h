@@ -30,12 +30,9 @@
 enum _2D_OBJECT {
 	OBJECT_2D_UNKNOWN = 0,		// よくわからないオブジェクト(テスト等に使用)
 	OBJECT_2D_FADE,				// フェードオブジェクト
-	OBJECT_2D_TEST_POLYGON,		// テスト用ポリゴン
+	OBJECT_2D_TAP,                // tap to start
 	OBJECT_2D_TITLE_BACKGROUND, // タイトル背景
-	OBJECT_2D_PAD,                // パッド画像
-	OBJECT_2D_UI_ICON,           // UIアイコン画像
-	OBJECT_2D_CLEAR_BACKGROUND,	// リザルト背景
-	OBJECT_2D_MESSAGE,           // デンタル大佐のお言葉
+	OBJECT_2D_LOGO,               // タイトルロゴ
 	OBJECT_2D_NUMBER,
 	MAX_2D_OBJECT
 };

@@ -46,7 +46,6 @@ class CGame : public CState{
 		virtual void Resume(void);		// 再開処理
 
 	private:
-		C2DSprite *m_pTestSprite;
 };
 
 

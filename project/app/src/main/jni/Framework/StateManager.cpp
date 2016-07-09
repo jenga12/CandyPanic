@@ -10,7 +10,6 @@
 #include "StateManager.h"
 #include "../title.h"
 #include "../game.h"
-#include "../result.h"
 #include "2DFade.h"
 
 
@@ -116,10 +115,6 @@ CState *CStateManager :: CreateState(STATE_NAME state){
 
 		case STATE_GAME:
 			p = new CGame();
-			break;
-
-		case STATE_RESULT:
-			p = new CResult();
 			break;
 	}
 

@@ -166,7 +166,7 @@ void C2DSprite :: Draw(void){
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glTranslatef(m_pos.x, m_pos.y, 0.0f);
-	glRotatef(PI * 2.0f * (m_fRot / 360.0f), 0.0f, 0.0f, 1.0f);
+	glRotatef((m_fRot * 180.0f) / PI, 0.0f, 0.0f, 1.0f);
 	glScalef(m_scl.x, m_scl.y, 1.0f);
 
 	m_pTextureManager->SetTexture();
