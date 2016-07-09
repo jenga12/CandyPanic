@@ -28,11 +28,14 @@
 /*                                 構造体定義                                 */
 /******************************************************************************/
 enum _2D_OBJECT {
-	OBJECT_2D_UNKNOWN = 0,		// よくわからないオブジェクト(テスト等に使用)
-	OBJECT_2D_FADE,				// フェードオブジェクト
+	OBJECT_2D_UNKNOWN = 0,		  // よくわからないオブジェクト(テスト等に使用)
+	OBJECT_2D_FADE,				  // フェードオブジェクト
 	OBJECT_2D_TAP,                // tap to start
-	OBJECT_2D_TITLE_BACKGROUND, // タイトル背景
+	OBJECT_2D_TITLE_BACKGROUND,   // タイトル背景
 	OBJECT_2D_LOGO,               // タイトルロゴ
+	OBJECT_2D_GAME_BACKGROUND,    // ゲーム画面背景
+	OBJECT_2D_GAME_LAYOUT,        // ゲーム画面レイアウト
+	OBJECT_2D_PLAYER_ICON,        // プレイヤーアイコン
 	OBJECT_2D_NUMBER,
 	MAX_2D_OBJECT
 };

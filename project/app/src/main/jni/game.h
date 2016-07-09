@@ -33,6 +33,7 @@
 /*                                 クラス定義                                 */
 /******************************************************************************/
 class C2DSprite;
+class C2DPolygon;
 
 class CGame : public CState{
 	public:
@@ -46,6 +47,11 @@ class CGame : public CState{
 		virtual void Resume(void);		// 再開処理
 
 	private:
+	    C2DSprite *m_pBackground;           // エリア背景
+	    C2DPolygon *m_apBackgage[4];        // ゲージ背景
+	    C2DSprite *m_pLayout;               // ゲーム画面レイアウト
+	    C2DSprite *m_apFrame[2];            // キャラ枠
+
 };
 
 
