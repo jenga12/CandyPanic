@@ -1,0 +1,44 @@
+﻿2016/06/03 16:26:56 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\AT4C_Git\Project\Converter\PNGChanger\PNGChanger.vcxproj" (build ターゲット)。
+     1>InitializeBuildStatus:
+         "AlwaysCreate" が指定されたため "Release\PNGChanger.unsuccessfulbuild" を作成しています。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\AT4C_Git\Project\Converter\PNGChanger\\PNGChanger.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\PNGChanger.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\AT4C_Git\Project\Converter\PNGChanger\PNGChanger.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\AT4C_Git\Project\Converter\PNGChanger\\PNGChanger.lib" /MACHINE:X86 Release\main.obj
+         コード生成しています。
+         コード生成が終了しました。
+     1>libpng_release.lib(pngget.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngget.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngread.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngread.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(png.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(png.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngrio.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngrio.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngrutil.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngrutil.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngerror.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngerror.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngrtran.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngrtran.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngtrans.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngtrans.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngmem.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngmem.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngset.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngset.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngwrite.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngwrite.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngwutil.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngwutil.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngwio.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngwio.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>libpng_release.lib(pngwtran.obj) : warning LNK4099: PDB 'vc100.pdb' が 'libpng_release.lib(pngwtran.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(inflate.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(inflate.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(adler32.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(adler32.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(crc32.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(crc32.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(deflate.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(deflate.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(inffast.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(inffast.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(zutil.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(zutil.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(inftrees.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(inftrees.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+     1>zlib_release.lib(trees.obj) : warning LNK4099: PDB 'vc100.pdb' が 'zlib_release.lib(trees.obj)' で、または 'C:\AT4C_Git\Project\Converter\PNGChanger\vc100.pdb' に見つかりません。デバッグ情報がないものとして、オブジェクトにリンクします。
+         PNGChanger.vcxproj -> C:\AT4C_Git\Project\Converter\PNGChanger\\PNGChanger.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\AT4C_Git\Project\Converter\PNGChanger\\PNGChanger.exe;#1" /manifest Release\PNGChanger.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         ファイル "Release\PNGChanger.unsuccessfulbuild" を削除しています。
+         "Release\PNGChanger.lastbuildstate" のタッチ タスクを実行しています。
+     1>プロジェクト "C:\AT4C_Git\Project\Converter\PNGChanger\PNGChanger.vcxproj" (build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:03.10

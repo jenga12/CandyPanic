@@ -47,7 +47,7 @@ CGame :: CGame(){
 * 内容：初期化処理
 */
 int CGame :: Init(void){
-	Vec2 size(256.0f, 128.0f);
+	Vec2 size(1280.0f, 720.0f);
 	Vec2 pos(640.0f, 360.0f);
 	m_pTestSprite = C2DSprite :: Create("game.img", &size, 1);
 	m_pTestSprite->SetPosition(&pos);

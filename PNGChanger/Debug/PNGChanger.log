@@ -1,0 +1,48 @@
+﻿2016/06/03 16:27:02 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\AT4C_Git\Project\Converter\PNGChanger\PNGChanger.vcxproj" (build ターゲット)。
+     1>InitializeBuildStatus:
+         "AlwaysCreate" が指定されたため "Debug\PNGChanger.unsuccessfulbuild" を作成しています。
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+       ManifestResourceCompile:
+         すべての出力が最新のものです。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\AT4C_Git\Project\Converter\PNGChanger\Debug\PNGChanger.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\PNGChanger.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\AT4C_Git\Project\Converter\PNGChanger\Debug\PNGChanger.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\AT4C_Git\Project\Converter\PNGChanger\Debug\PNGChanger.lib" /MACHINE:X86 Debug\PNGChanger.exe.embed.manifest.res
+         Debug\main.obj
+     1>libpng_debug.lib(png.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngerror.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngget.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngmem.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngread.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngrio.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngrtran.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngrutil.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngset.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngtrans.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngwio.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngwrite.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngwtran.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>libpng_debug.lib(pngwutil.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(adler32.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(crc32.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(deflate.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(inffast.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(inflate.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(inftrees.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(trees.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+     1>zlib_debug.lib(zutil.obj) : warning LNK4204: 'C:\AT4C_Git\Project\Converter\PNGChanger\Debug\vc100.pdb' に参照するモジュールのデバッグ情報がありません。デバッグ情報を無視してオブジェクトをリンクします。
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\PNGChanger.exe.embed.manifest" /manifest Debug\PNGChanger.exe.intermediate.manifest
+         すべての出力が最新のものです。
+       LinkEmbedManifest:
+         すべての出力が最新のものです。
+         PNGChanger.vcxproj -> C:\AT4C_Git\Project\Converter\PNGChanger\Debug\PNGChanger.exe
+       FinalizeBuildStatus:
+         ファイル "Debug\PNGChanger.unsuccessfulbuild" を削除しています。
+         "Debug\PNGChanger.lastbuildstate" のタッチ タスクを実行しています。
+     1>プロジェクト "C:\AT4C_Git\Project\Converter\PNGChanger\PNGChanger.vcxproj" (build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:01.30

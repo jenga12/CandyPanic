@@ -1,0 +1,18 @@
+
+使用素材サイト一覧
+	http://e2ua.com/WDF-781209.html
+	http://www.pixeden.com/
+	http://prcm.jp/album/8677edf019b07/pic/49746349
+	http://suzukimemo.com/post-47
+	http://blog.goo.ne.jp/akarise/c/70e7d6dcff29d96ec95aebf244ee58fd
+	
+	http://on-jin.com/
+	http://www.kurage-kosho.info/battle.html
+	http://maoudamashii.jokersounds.com/
+	http://taira-komori.jpn.org/magic01.html
+	http://commons.nicovideo.jp/material/nc132892
+	http://www.senses-circuit.com/material/rule_normal.html
+	http://conte-de-fees.com/?p=525
+	http://dova-s.jp/bgm/play2142.html
+	
+	titleBGM.looppos(1695)
