@@ -64,7 +64,7 @@ class C2DNumber {
 	public:
 		/*** インスタンス生成 ***/
 		static C2DNumber *Create(	const char *pTexFileName, const Vec2 *pPos,
-		                             const Vec2 *pDigitSize, unsigned int nPriority,
+		                             const Vec2 *pDigitSize, float fInterval, unsigned int nPriority,
 		                             int nDigit, bool bRight, bool bZero);
 		void Release(void);					// インスタンス破棄
 		void SetNumber(unsigned int num);		// 描画数字を設定する
@@ -75,7 +75,7 @@ class C2DNumber {
 
 	private:
 		/*** 初期化処理 ***/
-		int Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, unsigned int nPriority);
+		int Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, float fInterval, unsigned int nPriority);
 
 		int NumberToArray(unsigned int num);	// 設定された数字を配列に１桁ずつ格納
 

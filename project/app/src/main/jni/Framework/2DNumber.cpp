@@ -85,14 +85,15 @@ C2DNumber :: C2DNumber(bool bZero, bool bRight, int nDigit):
  * 引数：pTexFileName			;使用テクスチャファイル名
  *		 pPos					;描画位置 (左上)
  *		 pDigitSize				;数字１桁の描画サイズ
+ *		 fInterval              ;数字の配置間隔
  *		 nPriority				;描画優先度
  *		 nDigit					;描画桁数
  *		 bRight					;右詰めフラグ
  *		 bZero					;0詰めフラグ
  */
-C2DNumber *C2DNumber :: Create(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, unsigned int nPriority, int nDigit, bool bRight, bool bZero){
+C2DNumber *C2DNumber :: Create(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, float fInterval, unsigned int nPriority, int nDigit, bool bRight, bool bZero){
 	C2DNumber *p = new C2DNumber(bZero, bRight, nDigit);
-	p->Init(pTexFileName, pPos, pDigitSize, nPriority);
+	p->Init(pTexFileName, pPos, pDigitSize, fInterval, nPriority);
 	return p;
 }
 
@@ -103,11 +104,12 @@ C2DNumber *C2DNumber :: Create(const char *pTexFileName, const Vec2 *pPos, const
  * 引数：pTexFileName			;使用テクスチャファイル名
  *		 pPos					;描画位置 (左上)
  *		 pDigitSize				;数字１桁の描画サイズ
+ *		 fInterval              ;数字の間隔
  *		 nPriority				;描画優先度
  * 返却値：	処理成功 -> 0
  *			処理失敗 -> -1
  */
-int C2DNumber :: Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, unsigned int nPriority){
+int C2DNumber :: Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pDigitSize, float fInterval, unsigned int nPriority){
 	/*** ワークの確保 ***/
 	m_pNumber = new char[m_nDigit];
 	m_ppSingleNumber = new C2DSingleNumber*[m_nDigit];
@@ -116,7 +118,7 @@ int C2DNumber :: Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pD
 
 	for(int i = 0; i < m_nDigit; ++i){
 		m_ppSingleNumber[i] = C2DSingleNumber :: Create(pTexFileName, &pos, pDigitSize, nPriority);
-		pos.x += pDigitSize->x;
+		pos.x += fInterval;
 		m_pNumber[i] = 0;
 	}
 

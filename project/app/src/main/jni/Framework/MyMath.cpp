@@ -194,6 +194,25 @@ void CMath :: Vec3Normalize(Vec3 *pOut, const Vec3 *pVec){
 
 /*
  * クラス名：CMath
+ * 関数名：Bezier()
+ * 内容：ベジェ計算
+ * 引数：start          ;曲線の始点
+ *       end            ;曲線の終点
+ *       c1             ;制御点1
+ *       c2             ;制御点2
+ *       t              ;位置
+ */
+float CMath :: Bezier(float start, float end, float c1, float c2, float t){
+	return (
+			(1.0f - t) * (1.0f - t) * (1.0f - t) * start +
+			3.0f * (1.0f - t) * (1.0f - t) * t * c1 +
+			3.0f * (1.0f - t) * t * t * c2 +
+			t * t * t * end
+	);
+}
+
+/*
+ * クラス名：CMath
  * 関数名：GetCRC32()
  * 内容：文字列からCRC32ハッシュ値を取得する
  * 引数：pStr			;ハッシュ値に変換する文字列
