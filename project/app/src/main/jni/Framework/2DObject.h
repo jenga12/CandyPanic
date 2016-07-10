@@ -39,6 +39,7 @@ enum _2D_OBJECT {
 	OBJECT_2D_ENEMY_ICON,         // 敵アイコン
 	OBJECT_2D_PANEL,               // パネル
 	OBJECT_2D_PANEL_EFFECT,       // パネルエフェクト
+	OBJECT_2D_ATTACK_EFFECT,      // 攻撃エフェクト
 	OBJECT_2D_NUMBER,              // 数字スプライト
 	OBJECT_2D_GAGE,                 // ゲージ
 

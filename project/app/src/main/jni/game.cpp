@@ -118,8 +118,8 @@ int CGame :: Init(void){
     m_apBackgage[3]->LinkList(OBJECT_2D_GAME_BACKGROUND);
 
     m_pPlayer = CPlayer :: Create();
-    m_pPanelManager = CPanelManager :: Create(m_pPlayer);
     m_pEnemy = CEnemy :: Create();
+    m_pPanelManager = CPanelManager :: Create(m_pPlayer, m_pEnemy);
     m_pEnemy->SetPanelManager(m_pPanelManager);
     m_pTimer = CTimer :: Create();
 
@@ -162,9 +162,8 @@ void CGame :: Update(void){
         m_pPanelManager->PaddingGray(5);
     }
 
-    float density = m_pPanelManager->Update();
+    m_pPanelManager->Update();
     m_pTimer->Update();
-    m_pPlayer->Update(density);
     m_pEnemy->Update();
 }
 

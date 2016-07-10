@@ -63,6 +63,9 @@ class C2DAnimation : public C2DSprite{
 	protected:
 		C2DAnimation(unsigned int nPriority, unsigned int nAnimationNum);		// コンストラクタ
 		~C2DAnimation(){};					// デストラクタ
+
+		void Init(const char *pTexFileName, const Vec2 *pSize);
+		void Init(CTextureManager *pTextureManager, const Vec2 *pSize);
 		
 	private:
 		unsigned int m_nAnimationNum;		// アニメーション枚数

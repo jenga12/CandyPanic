@@ -132,21 +132,42 @@ void CPlayer :: Release(void){
  * 関数名：Update()
  * 内容：更新処理
  * 引数：fDensity			;密度
+ *       bErase             ;パネル消しフラグ
  * 返却値：ライフ0で1, それ以外は0
  */
-int CPlayer :: Update(float fDensity){
-	int nDensity = (int)(250.0f * fDensity);
-	
+int CPlayer :: Update(float fDensity, bool bErase) {
+	int nDensity = (int) (250.0f * fDensity);
+
 	/*** 密度ゲージの色分け ***/
-	if(fDensity >= 0.9f){
+	if(fDensity >= 0.99f){
 		m_pDensity->SetColor(g_ColorRed);
-		--m_nLife;
+		if(!bErase) {
+			m_nLife -= 50;
+		}
+	} else if(fDensity >= 0.95f) {
+		m_pDensity->SetColor(g_ColorRed);
+		if(!bErase) {
+			m_nLife -= 2;
+		}
+
+	} else if(fDensity >= 0.85f) {
+		m_pDensity->SetColor(g_ColorRed);
+		if(!bErase) {
+			--m_nLife;
+		}
+	} else if(fDensity >= 0.8f){
+		m_pDensity->SetColor(g_ColorRed);
 		
 	} else if(fDensity >= 0.6f){		
 		m_pDensity->SetColor(g_ColorYellow);
 		
 	} else {
 		m_pDensity->SetColor(g_ColorCyan);
+	}
+
+	if(m_nLife > LIFE_SCALE * 250){
+		m_nLife = 0;
+		return 1;
 	}
 	
 	Vec2 pos(-105.0f + nDensity, 431.0f);
@@ -191,9 +212,7 @@ int CPlayer :: Update(float fDensity){
 			m_pIcon->SetTexCoord(&g_FaceUV[m_nCurrentFace], &size);
 		}
 	}
-	if(m_nLife > LIFE_SCALE * 250){
-		return 1;
-	}
+
 	return 0;
 }
 

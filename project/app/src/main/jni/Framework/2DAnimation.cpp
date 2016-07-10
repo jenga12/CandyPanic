@@ -50,16 +50,13 @@ m_bPlaying(true){
  * 関数名：Create()
  * 内容：インスタンス生成
  * 引数：pTexFileName			;使用テクスチャファイル名
- *		 pSize					;テクスチャサイズ (画像全体)
+ *		 pSize					;ポリゴンサイズ
  *		 nPriority				;描画優先度
  *		 nAnimationNum			;アニメーションの枚数
  */
 C2DAnimation *C2DAnimation :: Create(const char *pTexFileName, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum){
 	C2DAnimation *p = new C2DAnimation(nPriority, nAnimationNum);
 	p->Init(pTexFileName, pSize);
-	p->m_SingleSize = Vec2(0.125f, 1.0f / (float)(((nAnimationNum - 1) >> 3) + 1));
-	Vec2 uv(0.0f, 0.0f);
-	p->SetTexCoord(&uv, &(p->m_SingleSize));
 	return p;
 }
 
@@ -68,17 +65,41 @@ C2DAnimation *C2DAnimation :: Create(const char *pTexFileName, const Vec2 *pSize
  * 関数名：Create()
  * 内容：インスタンス生成
  * 引数：pTextureManager		;使用テクスチャのマネージャ
- *		 pSize					;テクスチャサイズ (画像全体)
+ *		 pSize					;ポリゴンサイズ
  *		 nPriority				;描画優先度
  *		 nAnimationNum			;アニメーションの枚数
  */
 C2DAnimation *C2DAnimation :: Create(CTextureManager *pTextureManager, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum){
 	C2DAnimation *p = new C2DAnimation(nPriority, nAnimationNum);
 	p->Init(pTextureManager, pSize);
-	p->m_SingleSize = Vec2(0.125f, 1.0f / (float)(((nAnimationNum - 1) >> 3) + 1));
-	Vec2 uv(0.0f, 0.0f);
-	p->SetTexCoord(&uv, &(p->m_SingleSize));
 	return p;
+}
+
+/*
+ * クラス名：C2DAnimation
+ * 関数名：Init()
+ * 引数：pTextureManager        ;使用テクスチャのマネージャ
+ *       pSize                  ;ポリゴンサイズ
+ */
+void C2DAnimation :: Init(CTextureManager *pTextureManager, const Vec2 *pSize){
+	C2DSprite :: Init(pTextureManager, pSize);
+	m_SingleSize = Vec2(0.125f, 1.0f / (float)(((m_nAnimationNum - 1) >> 3) + 1));
+	Vec2 uv(0.0f, 0.0f);
+	SetTexCoord(&uv, &m_SingleSize);
+}
+
+/*
+ * クラス名：C2DAnimation
+ * 関数名：Init()
+ * 内容：初期化処理
+ * 引数：pTexFileName      ;使用テクスチャファイル名
+ *       pSize                 ;ポリゴンサイズ
+ */
+void C2DAnimation :: Init(const char *pTexFileName, const Vec2 *pSize){
+	C2DSprite :: Init(pTexFileName, pSize);
+	m_SingleSize = Vec2(0.125f, 1.0f / (float)(((m_nAnimationNum - 1) >> 3) + 1));
+	Vec2 uv(0.0f, 0.0f);
+	SetTexCoord(&uv, &m_SingleSize);
 }
 
 /*

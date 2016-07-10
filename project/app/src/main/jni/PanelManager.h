@@ -47,6 +47,8 @@ static const PANEL_COLOR PANEL_BLOCK = 127;		// ブロック
 
 static const char PANEL_ERASE_TERM = 5;			// いくつ以上繋がればパネルを消すか
 
+static const unsigned char ATTACK_EFFECT_MAX = 30;            // 最大同時攻撃エフェクト数
+
 
 /******************************************************************************/
 /*                                 構造体定義                                 */
@@ -61,19 +63,21 @@ class CTextureManager;
 class C2DAnimation;
 class CScore;
 class CPlayer;
+class CAttack;
+class CEnemy;
 
 class CPanelManager {
 	public:
-		static CPanelManager *Create(CPlayer *pPlayer);			// インスタンス生成
+		static CPanelManager *Create(CPlayer *pPlayer, CEnemy *pEnemy);			// インスタンス生成
 		void Release(void);			// インスタンス破棄
-		float Update(void);			// 更新処理
+		void Update(void);			 // 更新処理
 		void PaddingGray(int num);     // おじゃまを発生させる
 		void ClearPanel(void);		// パネル消去
 		
 	private:
 		CPanelManager();			// コンストラクタ
 		~CPanelManager(){};			// デストラクタ
-		int Init(void);				// 初期化処理
+		int Init(CEnemy *pEnemy);	// 初期化処理
 		int PanelCount(int x, int y, PANEL_COLOR color, int count);	// つながっているパネルの数を数える
 		void PanelErase(int x, int y, PANEL_COLOR color);			// つながっているパネルを消す
 
@@ -111,6 +115,8 @@ class CPanelManager {
 		CPlayer *m_pPlayer;                                         // プレイヤー
 		unsigned int m_nSlideCount;                               // スライド回数
 		unsigned int m_nCombo;                                    // コンボ数
+		unsigned int m_nGrayRemain;                               // 出現させられていないおじゃまの残り
+		CAttack *m_apAttack[ATTACK_EFFECT_MAX];                     // 攻撃エフェクト
 };
 
 

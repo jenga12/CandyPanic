@@ -26,8 +26,10 @@ public class MainSurfaceView implements GLSurfaceView.Renderer {
 	public static native void Pause();
 	public static native void Resume();
 	private static native int Frame(int position[], float sensor[]);
+	private boolean m_bInitialize;
 
 	public MainSurfaceView(Context context, Vec2 DisplaySize){
+		m_bInitialize = false;
 		position = new int[3];
 		sensor = new float[3];
 		position[0] = 0;
@@ -50,14 +52,17 @@ public class MainSurfaceView implements GLSurfaceView.Renderer {
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		//Initialize(width, height, m_activity.getResources().getAssets(), System.currentTimeMillis());
 		Resume();
+		m_bInitialize = true;
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		m_bFrameUpdate = true;
-		Frame(position, sensor);
-		m_bFrameUpdate = false;
-		position[2] = 0;
+		if(m_bInitialize) {
+			m_bFrameUpdate = true;
+			Frame(position, sensor);
+			m_bFrameUpdate = false;
+			position[2] = 0;
+		}
 	}
 
 	public void SetTrigger(int x, int y){

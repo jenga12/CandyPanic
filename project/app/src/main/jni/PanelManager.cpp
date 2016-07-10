@@ -15,6 +15,7 @@
 #include "Framework/MyMath.h"
 #include "Framework/MainManager.h"
 #include "player.h"
+#include "attack.h"
 #include <math.h>
 
 
@@ -44,7 +45,8 @@
  */
 CPanelManager :: CPanelManager():
 m_nSlideCount(0),
-m_nCombo(0){
+m_nCombo(0),
+m_nGrayRemain(0){
 	
 }
 
@@ -53,10 +55,11 @@ m_nCombo(0){
  * 関数名：Create()
  * 内容：インスタンス生成
  * 引数：pPlayer           ;プレイヤーオブジェクト
+ *       pEnemy            ;敵オブジェクト
  */
-CPanelManager *CPanelManager :: Create(CPlayer *pPlayer){
+CPanelManager *CPanelManager :: Create(CPlayer *pPlayer, CEnemy *pEnemy){
 	CPanelManager *p = new CPanelManager();
-	p->Init();
+	p->Init(pEnemy);
 	p->m_pPlayer = pPlayer;
 	return p;
 }
@@ -65,8 +68,9 @@ CPanelManager *CPanelManager :: Create(CPlayer *pPlayer){
  * クラス名：CPanelManager
  * 関数名：Init()
  * 内容：初期化処理
+ * 引数：pEnemy            ;敵オブジェクト
  */
-int CPanelManager :: Init(void){
+int CPanelManager :: Init(CEnemy *pEnemy){
 	ClearCheckFlag();
 	
 	/*** パネルテクスチャ ***/
@@ -103,6 +107,10 @@ int CPanelManager :: Init(void){
 
 	m_pGyro = CGyro :: Create();
 	m_pScore = CScore :: Create();
+
+	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
+		m_apAttack[i] = CAttack :: Create(pEnemy);
+	}
 }
 
 /*
@@ -135,7 +143,7 @@ void CPanelManager :: Release(void){
  * 関数名：Update()
  * 内容：更新処理
  */
-float CPanelManager :: Update(void) {
+void CPanelManager :: Update(void) {
 	m_pGyro->Update();
 
 	/*** 消えているパネルがあるか調査 ***/
@@ -163,7 +171,9 @@ float CPanelManager :: Update(void) {
 	/*** パネルの消去処理 ***/
 	if(!move){
 		int EraseCount = 0;
+		bool bFirst = true;
 		Vec2 pos(0.0f, 0.0f);
+
 		for (int i = 0; i < FIELD_ROW; ++i) {
 			for (int j = 0; j < FIELD_LINE; ++j) {
 				if ((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK) &&
@@ -183,6 +193,22 @@ float CPanelManager :: Update(void) {
 						           LeftTopPanelPos.y + PANEL_INTERVAL * j);
 						move = true;
 
+						/*** コンボ処理 ***/
+						if(bFirst){
+							if (m_nSlideCount <= 1) {
+								++m_nCombo;
+							} else {
+								m_nCombo = 1;
+							}
+							bFirst = false;
+						}
+
+						for(int k = 0; k < ATTACK_EFFECT_MAX; ++k){
+							if(!(m_apAttack[k]->Use())){
+								m_apAttack[k]->Start(&pos, (count * m_nCombo) >> 1);
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -190,13 +216,6 @@ float CPanelManager :: Update(void) {
 
 		/*** パネルが消された ***/
 		if (pos.x != 0.0f) {
-			/*** コンボの継続 ***/
-			if (m_nSlideCount <= 1) {
-				++m_nCombo;
-			} else {
-				m_nCombo = 1;
-			}
-
 			m_pScore->AddScore((unsigned int)(EraseCount * 10.0 * pow(m_nCombo, 1.7)));
 			m_nSlideCount = 0;
 			m_pPlayer->SetPlayerFace(FACE_ANGRY, 60);
@@ -204,8 +223,8 @@ float CPanelManager :: Update(void) {
 	}
 
 	if (!bErase) {
-		const INPUT *pInput = CMainManager::GetInput();
 		GYRO_ANGLE angle = m_pGyro->GetGyro();
+		const INPUT *pInput = CMainManager :: GetInput();
 
 		/*** パネルの追加 ***/
 		if (pInput[0].flag == 1) {
@@ -255,6 +274,62 @@ float CPanelManager :: Update(void) {
 					break;
 			}
 		}
+
+		/*** おじゃまの追加 ***/
+		if(m_nGrayRemain){
+			if (angle == GYRO_HORIZON) {
+				angle = (CMath::GetRand() % 4) + 1;
+			}
+
+			switch (angle) {
+				case GYRO_LEFT:
+					if (m_nGrayRemain > FIELD_LINE) {
+						m_nGrayRemain -= FIELD_LINE;
+						PaddingGrayLeft(m_nGrayRemain);
+					} else {
+						int nGrayRemain = m_nGrayRemain;
+						m_nGrayRemain = 0;
+						PaddingGrayLeft(nGrayRemain);
+					}
+					break;
+
+				case GYRO_RIGHT:
+					if (m_nGrayRemain > FIELD_LINE) {
+						m_nGrayRemain -= FIELD_LINE;
+						PaddingGrayRight(m_nGrayRemain);
+					} else {
+						int nGrayRemain = m_nGrayRemain;
+						m_nGrayRemain = 0;
+						PaddingGrayRight(nGrayRemain);
+					}
+					break;
+
+				case GYRO_BOTTOM:
+					if (m_nGrayRemain > FIELD_ROW) {
+						m_nGrayRemain -= FIELD_ROW;
+						PaddingGrayDown(m_nGrayRemain);
+					} else {
+						int nGrayRemain = m_nGrayRemain;
+						m_nGrayRemain = 0;
+						PaddingGrayDown(nGrayRemain);
+					}
+					break;
+
+				case GYRO_TOP:
+					if (m_nGrayRemain > FIELD_ROW) {
+						m_nGrayRemain -= FIELD_ROW;
+						PaddingGrayUp(m_nGrayRemain);
+					} else {
+						int nGrayRemain = m_nGrayRemain;
+						m_nGrayRemain = 0;
+						PaddingGrayUp(nGrayRemain);
+					}
+
+					break;
+
+
+			}
+		}
 	}
 
 	/*** パネルの更新 ***/
@@ -275,7 +350,13 @@ float CPanelManager :: Update(void) {
 			}
 		}
 	}
-	return ((float)count / (float)(FIELD_ROW * FIELD_LINE));
+
+	/*** 攻撃エフェクトの更新 ***/
+	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
+		m_apAttack[i]->Update();
+	}
+
+	m_pPlayer->Update((float)count / (float)(FIELD_ROW * FIELD_LINE), bErase);
 }
 
 /*
@@ -406,25 +487,7 @@ void CPanelManager :: PaddingUp(void){
  * 引数：num               ;おじゃまの数
  */
 void CPanelManager :: PaddingGray(int num){
-	GYRO_ANGLE angle = m_pGyro->GetGyro();
-
-	switch(angle){
-		case GYRO_LEFT:
-			PaddingGrayLeft(num);
-			break;
-
-		case GYRO_RIGHT:
-			PaddingGrayRight(num);
-			break;
-
-		case GYRO_BOTTOM:
-			PaddingGrayDown(num);
-			break;
-
-		case GYRO_TOP:
-			PaddingGrayUp(num);
-			break;
-	}
+	m_nGrayRemain += num;
 }
 
 /*
@@ -471,6 +534,8 @@ void CPanelManager :: PaddingGrayLeft(int num){
 			m_apPanel[j][i]->SetTarget(&target, &move);
 
 			m_apPanel[j][i]->LinkList(OBJECT_2D_PANEL);
+		} else {
+			++m_nGrayRemain;
 		}
 	}
 }
@@ -507,7 +572,7 @@ void CPanelManager :: PaddingGrayRight(int num){
 			}
 		}
 
-		if(j >= 0){
+		if(--j >= 0){
 			m_aField[j][i] = PANEL_GRAY;
 			m_apPanel[j][i]->SetTextureManager(m_pTexGray);
 			
@@ -519,6 +584,8 @@ void CPanelManager :: PaddingGrayRight(int num){
 			m_apPanel[j][i]->SetTarget(&target, &move);
 
 			m_apPanel[j][i]->LinkList(OBJECT_2D_PANEL);
+		} else {
+			++m_nGrayRemain;
 		}
 	}
 }
@@ -568,6 +635,8 @@ void CPanelManager :: PaddingGrayUp(int num){
 			m_apPanel[j][i]->SetTarget(&target, &move);
 
 			m_apPanel[j][i]->LinkList(OBJECT_2D_PANEL);
+		} else {
+			++m_nGrayRemain;
 		}
 	}
 }
@@ -617,6 +686,8 @@ void CPanelManager :: PaddingGrayDown(int num){
 			m_apPanel[j][i]->SetTarget(&target, &move);
 
 			m_apPanel[j][i]->LinkList(OBJECT_2D_PANEL);
+		} else {
+			++m_nGrayRemain;
 		}
 	}
 }

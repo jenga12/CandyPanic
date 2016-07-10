@@ -1,17 +1,17 @@
 /*
- *	File：player.h
+ *	File：attack.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：プレイヤー処理クラス定義
+ *	Outline：攻撃エフェクト処理クラス定義
  */
 
 #pragma once
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _ATTACK_H_
+#define _ATTACK_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
-#include "face.h"
+#include "Framework/2DAnimation.h"
 
 
 /******************************************************************************/
@@ -32,33 +32,33 @@
 /******************************************************************************/
 /*                                 クラス定義                                 */
 /******************************************************************************/
-class C2DSprite;
-class C2DPolygon;
-
-class CPlayer{
+class CEnemy;
+class CAttack : public C2DAnimation {
 	public:
-		static CPlayer *Create(void);	// インスタンス生成
-		void Release(void);				// インスタンス破棄
-		int Update(float fDensity, bool bErase);		// 更新処理
-	
-		void SetPlayerFace(FACE_TYPE face, int frame);		// プレイヤーの表情を設定
+		static CAttack *Create(CEnemy *pEnemy); // インスタンス生成
+		virtual void Destroy(void);	         // インスタンス破棄
+		void Update(void);					     // 更新処理
+		bool Use(void){
+			return m_bUse;
+		}
 		
+		void Start(const Vec2 *pDefaultPos, int damage);// エフェクトスタート
+			
 	private:
+		CAttack();						// コンストラクタ
+		~CAttack(){};					// デストラクタ
 		void Init(void);				// 初期化処理
-		CPlayer();						// コンストラクタ
-		~CPlayer(){};					// デストラクタ
 	
-		C2DSprite *m_pIcon;				// プレイヤーアイコン
-		C2DPolygon *m_pLife;			// ライフゲージ
-		C2DPolygon *m_pDensity;			// 密度ゲージ
-	
-		FACE_TYPE m_nCurrentFace;		// 現在の表情
-		unsigned int m_nFrameCount;		// フレームカウンタ
-		unsigned int m_nFrame;			// フレームカウンタ
-		unsigned short m_nLife;			// ライフ
-	
-		static const unsigned short LIFE_SCALE = 4;
+		Vec2 m_start;					// 開始位置
+		float m_fRot;					// 向き
+		float m_fTime;					// 時間
+		C2DAnimation *m_pHit;			// ヒットアニメーション
+		bool m_bUse;					// 使用フラグ
+		bool m_bHit;					// ヒットアニメーションフラグ
+		int m_nDamage;                 // ダメージ量
+		CEnemy *m_pEnemy;               // 敵
 };
+
 
 /******************************************************************************/
 /*                              プロトタイプ宣言                              */
