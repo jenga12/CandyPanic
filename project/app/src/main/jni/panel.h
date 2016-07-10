@@ -1,17 +1,17 @@
 /*
- *	File：2DAnimation.h
+ *	File：panel.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：2Dアニメーション処理クラス定義
+ *	Outline：パネル処理クラス定義
  */
 
 #pragma once
-#ifndef _2D_ANIMATION_H_
-#define _2D_ANIMATION_H_
+#ifndef _PANEL_H_
+#define _PANEL_H_ 
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
-#include "2DSprite.h"
+#include "Framework/2DSprite.h"
 
 
 /******************************************************************************/
@@ -32,48 +32,40 @@
 /******************************************************************************/
 /*                                 クラス定義                                 */
 /******************************************************************************/
-class C2DAnimation : public C2DSprite{
+class C2DAnimation;
+
+class CPanel : public C2DSprite {
 	public:
-		/*** インスタンス生成 ***/
-		static C2DAnimation *Create(const char *pTexFileName, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum);
-		static C2DAnimation *Create(CTextureManager *pTextureManager, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum);
-		
-		void SetChangeFrame(int nFrame){	// イメージ１枚が切り替わるまでのフレーム数指定
-			m_nChangeFrame = nFrame;
-		}
-		
-		int IncrementFrame(void);			// 次のフレームへ
-		
-		void SetLoop(bool bLoop){			// ループフラグの設定{
-			m_bLoop = bLoop;
-		}
-	
-		void Seek(unsigned int nFrame){		// 指定フレームへシークする
-			m_nFrameCount = nFrame;
+		static CPanel *Create(CTextureManager *pTextureManager, const Vec2 *pPos);			// パネルの生成
+		void Update(void);						// パネルの更新
+		bool IsMove(void){						// 動きがあるかたずねる
+			return m_bMove || m_bErase;
 		}
 
-		void Stop(void){
-			m_bPlaying = false;
-		}
-
-		void Play(void){
-			m_bPlaying = true;
+		void SetPosition(const Vec2 *pPos){
+			m_pos = *pPos;
 		}
 		
-	protected:
-		C2DAnimation(unsigned int nPriority, unsigned int nAnimationNum);		// コンストラクタ
-		~C2DAnimation(){};					// デストラクタ
+		void SetTarget(const Vec2 *pPos, const Vec2 *pMove){		// 移動目標地点を設定
+			m_TargetPos = *pPos;
+			m_Move = *pMove;
+			m_bMove = true;
+		}
+		
+		void Erase(CTextureManager *pPanelEffectTex);				// パネルを消去する
 		
 	private:
-		unsigned int m_nAnimationNum;		// アニメーション枚数
-		unsigned int m_nAnimationNo;		// 現在の画像番号
-		unsigned int m_nChangeFrame;		// イメージ１枚が切り替わるまでのフレーム数
-		unsigned int m_nFrameCount;			// フレームカウンタ
-		bool m_bLoop;						// ループフラグ
-		bool m_bPlaying;					// アニメーションフラグ
-		Vec2 m_SingleSize;					// アニメーション１枚のサイズ
+		CPanel();					// コンストラクタ
+		~CPanel(){};				// デストラクタ
+	
+		bool m_bMove;				// 移動フラグ
+		bool m_bErase;				// 削除フラグ
+		Vec2 m_pos;					// 現在の表示位置
+		Vec2 m_TargetPos;			// 目的の表示位置
+		Vec2 m_Move;				// 移動量
+		C2DAnimation *m_pEffect;	// エフェクト
+		int m_nFrameCount;			// フレームカウンタ
 };
-
 
 /******************************************************************************/
 /*                              プロトタイプ宣言                              */

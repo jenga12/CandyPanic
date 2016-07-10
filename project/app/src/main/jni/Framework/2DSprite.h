@@ -41,6 +41,10 @@ class C2DSprite : public C2DObject{
 		static C2DSprite *Create(const char *pTexFileName, const Vec2 *pSize, unsigned int nPriority);
 		static C2DSprite *Create(CTextureManager *pTextureManager, const Vec2 *pSize, unsigned int nPriority);
 
+		void SetTextureManager(CTextureManager *pTextureManager){
+			m_pTextureManager = pTextureManager;
+		}
+
 		void SetColor(const Color_32 *pColor){							    // 頂点カラー設定
 			for(int i = 0; i < 4; ++i){
 				m_VtxData.pClr[i] = *pColor;

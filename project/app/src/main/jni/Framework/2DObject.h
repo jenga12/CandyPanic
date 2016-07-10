@@ -36,6 +36,8 @@ enum _2D_OBJECT {
 	OBJECT_2D_GAME_BACKGROUND,    // ゲーム画面背景
 	OBJECT_2D_GAME_LAYOUT,        // ゲーム画面レイアウト
 	OBJECT_2D_PLAYER_ICON,        // プレイヤーアイコン
+	OBJECT_2D_PANEL,               // パネル
+	OBJECT_2D_PANEL_EFFECT,       // パネルエフェクト
 	OBJECT_2D_NUMBER,
 	MAX_2D_OBJECT
 };

@@ -1,17 +1,16 @@
 /*
- *	File：2DAnimation.h
+ *	File：gyro.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：2Dアニメーション処理クラス定義
+ *	Outline：ジャイロセンサー判定クラス定義
  */
 
 #pragma once
-#ifndef _2D_ANIMATION_H_
-#define _2D_ANIMATION_H_
+#ifndef _GYRO_H_
+#define _GYRO_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
-#include "2DSprite.h"
 
 
 /******************************************************************************/
@@ -22,6 +21,12 @@
 /******************************************************************************/
 /*                              マクロ＆定数定義                              */
 /******************************************************************************/
+typedef unsigned char GYRO_ANGLE;
+static const GYRO_ANGLE GYRO_HORIZON = 0;	// 水平状態
+static const GYRO_ANGLE GYRO_LEFT = 1;		// 左に傾けた状態
+static const GYRO_ANGLE GYRO_RIGHT = 2;		// 右に傾けた状態
+static const GYRO_ANGLE GYRO_TOP = 3;		// 上に傾けた状態
+static const GYRO_ANGLE GYRO_BOTTOM = 4;	// 下に傾けた状態
 
 
 /******************************************************************************/
@@ -32,48 +37,22 @@
 /******************************************************************************/
 /*                                 クラス定義                                 */
 /******************************************************************************/
-class C2DAnimation : public C2DSprite{
+class CGyro {
 	public:
-		/*** インスタンス生成 ***/
-		static C2DAnimation *Create(const char *pTexFileName, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum);
-		static C2DAnimation *Create(CTextureManager *pTextureManager, const Vec2 *pSize, unsigned int nPriority, unsigned int nAnimationNum);
+		static CGyro *Create(void);    // インスタンス生成
+		void Release(void);            // インスタンス破棄
 		
-		void SetChangeFrame(int nFrame){	// イメージ１枚が切り替わるまでのフレーム数指定
-			m_nChangeFrame = nFrame;
+		void Update(void);             // 更新処理
+		GYRO_ANGLE GetGyro(void){       // 端末の向き
+			return m_angle;
 		}
-		
-		int IncrementFrame(void);			// 次のフレームへ
-		
-		void SetLoop(bool bLoop){			// ループフラグの設定{
-			m_bLoop = bLoop;
-		}
-	
-		void Seek(unsigned int nFrame){		// 指定フレームへシークする
-			m_nFrameCount = nFrame;
-		}
-
-		void Stop(void){
-			m_bPlaying = false;
-		}
-
-		void Play(void){
-			m_bPlaying = true;
-		}
-		
-	protected:
-		C2DAnimation(unsigned int nPriority, unsigned int nAnimationNum);		// コンストラクタ
-		~C2DAnimation(){};					// デストラクタ
 		
 	private:
-		unsigned int m_nAnimationNum;		// アニメーション枚数
-		unsigned int m_nAnimationNo;		// 現在の画像番号
-		unsigned int m_nChangeFrame;		// イメージ１枚が切り替わるまでのフレーム数
-		unsigned int m_nFrameCount;			// フレームカウンタ
-		bool m_bLoop;						// ループフラグ
-		bool m_bPlaying;					// アニメーションフラグ
-		Vec2 m_SingleSize;					// アニメーション１枚のサイズ
+		CGyro();
+		~CGyro(){};
+		GYRO_ANGLE m_angle;				// 端末の傾いている方向
+		static const float THRESHOLD;	// 判定値
 };
-
 
 /******************************************************************************/
 /*                              プロトタイプ宣言                              */
