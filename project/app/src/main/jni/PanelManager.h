@@ -12,6 +12,7 @@
 /*                            インクルードファイル                            */
 /******************************************************************************/
 #include "Framework/Vector2D.h"
+#include "gyro.h"
 
 
 /******************************************************************************/
@@ -27,10 +28,10 @@ static const unsigned char FIELD_LINE = 14;		// フィールドの行数
 static const float PANEL_INTERVAL = 50.0f;		// 敷き詰めるパネル同士の間隔
 
 static const Vec2 PanelSize(64.0f, 64.0f);		// パネルの大きさ(ポリゴンサイズ)
-static const Vec2 FieldPos(700.0f, 10.0f);		// フィールドの位置(パネルの配置位置)
+static const Vec2 FieldPos(290.0f, 10.0f);		// フィールドの位置(パネルの配置位置)
 static const Vec2 LeftTopPanelPos(PANEL_INTERVAL * 0.5f + FieldPos.x, PANEL_INTERVAL * 0.5f + FieldPos.y);	// 左上のパネルの座標
 
-static const float PANEL_MOVE_SPEED = 25.0f;
+static const float PANEL_MOVE_SPEED = 36.0f;
 
 /*** パネル種別の定数 ***/
 typedef char PANEL_COLOR;
@@ -59,27 +60,12 @@ class CPanel;
 class CTextureManager;
 class C2DAnimation;
 
-
 class CPanelManager {
 	public:
 		static CPanelManager *Create(void);			// インスタンス生成
 		void Release(void);			// インスタンス破棄
 		void Update(void);			// 更新処理
-	
-		/*** パネル操作系 ***/
-		void PaddingLeft(void);		// 左方向にパネルを敷き詰める
-		void PaddingRight(void);	// 右方向にパネルを敷き詰める
-		void PaddingDown(void);		// 下方向にパネルを敷き詰める
-		void PaddingUp(void);		// 上方向にパネルを敷き詰める
-		void PaddingGrayLeft(int num);	// 左方向におじゃまパネルを敷き詰める
-		void PaddingGrayRight(int num);	// 右方向におじゃまパネルを敷き詰める
-		void PaddingGrayDown(int num);	// 下方向におじゃまパネルを敷き詰める
-		void PaddingGrayUp(int num);	// 上方向におじゃまパネルを敷き詰める
-		void SlideLeft(void);		// 左方向にパネルをスライドさせる
-		void SlideRight(void);		// 右方向にパネルをスライドさせる
-		void SlideDown(void);		// 下方向にパネルをスライドさせる
-		void SlideUp(void);			// 上方向にパネルをスライドさせる
-
+		void PaddingGray(int num);     // おじゃまを発生させる
 		void ClearPanel(void);		// パネル消去
 		
 	private:
@@ -88,8 +74,22 @@ class CPanelManager {
 		int Init(void);				// 初期化処理
 		int PanelCount(int x, int y, PANEL_COLOR color, int count);	// つながっているパネルの数を数える
 		void PanelErase(int x, int y, PANEL_COLOR color);			// つながっているパネルを消す
-	
-		void ClearCheckFlag(void);									// チェックフラグをリセットする
+
+		/*** パネル操作系 ***/
+		void PaddingLeft(void);		// 左方向にパネルを敷き詰める
+		void PaddingRight(void);	// 右方向にパネルを敷き詰める
+		void PaddingDown(void);		// 下方向にパネルを敷き詰める
+		void PaddingUp(void);		// 上方向にパネルを敷き詰める
+		void SlideLeft(void);		// 左方向にパネルをスライドさせる
+		void SlideRight(void);		// 右方向にパネルをスライドさせる
+		void SlideDown(void);		// 下方向にパネルをスライドさせる
+		void SlideUp(void);			// 上方向にパネルをスライドさせる
+		void PaddingGrayLeft(int num);	// 左方向におじゃまパネルを敷き詰める
+		void PaddingGrayRight(int num);	// 右方向におじゃまパネルを敷き詰める
+		void PaddingGrayDown(int num);	// 下方向におじゃまパネルを敷き詰める
+		void PaddingGrayUp(int num);	// 上方向におじゃまパネルを敷き詰める
+
+	void ClearCheckFlag(void);									// チェックフラグをリセットする
 		void CreatePanel(int x, int y);								// 指定位置にパネルを生成
 
 		PANEL_COLOR m_aField[FIELD_ROW][FIELD_LINE];				// フィールドデータ
@@ -103,6 +103,8 @@ class CPanelManager {
 		/*** エフェクトテクスチャ ***/
 		CTextureManager *m_apTexEffect[PANEL_COLOR_NUM];			// エフェクト
 		CTextureManager *m_pTexGrayEffect;							// おじゃまパネルのエフェクト
+		CGyro *m_pGyro;
+
 };
 
 

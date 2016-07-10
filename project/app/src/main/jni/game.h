@@ -34,6 +34,7 @@
 /******************************************************************************/
 class C2DSprite;
 class C2DPolygon;
+class CPanelManager;
 
 class CGame : public CState{
 	public:
@@ -52,6 +53,7 @@ class CGame : public CState{
 	    C2DSprite *m_pLayout;               // ゲーム画面レイアウト
 	    C2DSprite *m_apFrame[2];            // キャラ枠
 
+		CPanelManager *m_pPanelManager;     // パネル管理クラス
 };
 
 

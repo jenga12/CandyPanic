@@ -130,7 +130,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 		switch(event.getAction()){
 			case MotionEvent.ACTION_DOWN:
-				m_sv.SetTrigger((int)event.getX(), (int)event.getY());
+				m_sv.SetTrigger((int)(event.getX() * m_scale.x), (int)(event.getY() * m_scale.y));
 				break;
 		}
 

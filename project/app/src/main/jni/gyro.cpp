@@ -15,7 +15,7 @@
 /******************************************************************************/
 /*                               静的変数初期化                               */
 /******************************************************************************/
-const float CGyro :: THRESHOLD = 1.0f;
+const float CGyro :: THRESHOLD = 0.4f;
 
 /******************************************************************************/
 /*                                  定数定義                                  */
@@ -68,38 +68,42 @@ void CGyro :: Release(void){
  */
 void CGyro :: Update(void){
 	const Vec3 *pSensor = CMainManager :: GetSensor();
-	
-	m_angle = GYRO_HORIZON;
-	
+
+	float angle = GYRO_HORIZON;
+
 	/*** 上に傾けた ***/
 	if(pSensor->x > THRESHOLD){
-		m_angle = GYRO_TOP;
+		angle = GYRO_TOP;
 	
 	/*** 下に傾けた ***/
 	} else if(pSensor->x < -THRESHOLD){
-		m_angle = GYRO_BOTTOM;
+		angle = GYRO_BOTTOM;
 	}
 	
 	/*** 左に傾けた ***/
 	if(pSensor->z < -THRESHOLD){
 		/*** より傾きが大きい方を適用する ***/
-		if(m_angle != GYRO_HORIZON){
+		if(angle != GYRO_HORIZON){
 			if(fabs(pSensor->z) > fabs(pSensor->x)){
-				m_angle = GYRO_LEFT;
+				angle = GYRO_LEFT;
 			}
 		} else {
-			m_angle = GYRO_LEFT;
+			angle = GYRO_LEFT;
 		}
 		
 	/*** 右に傾けた ***/
 	} else if(pSensor->z > THRESHOLD){
-		if(m_angle != GYRO_HORIZON){
+		if(angle != GYRO_HORIZON){
 			/*** より傾きが大きい方を適用する ***/
 			if(fabs(pSensor->z) > fabs(pSensor->x)){
-				m_angle = GYRO_RIGHT;
+				angle = GYRO_RIGHT;
 			}
 		} else {
-			m_angle = GYRO_RIGHT;
+			angle = GYRO_RIGHT;
 		}
+	}
+
+	if(angle != GYRO_HORIZON){
+		m_angle = angle;
 	}
 }

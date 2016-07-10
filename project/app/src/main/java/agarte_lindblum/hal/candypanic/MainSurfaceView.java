@@ -15,6 +15,7 @@ public class MainSurfaceView implements GLSurfaceView.Renderer {
 	private float sensor[];             // センサー
 	private MainActivity m_activity;    // アクティビティ
 	private Vec2 m_DisplaySize;         // ディスプレイサイズ
+	private boolean m_bFrameUpdate;
 
 	static {
 		System.loadLibrary("main");
@@ -37,6 +38,7 @@ public class MainSurfaceView implements GLSurfaceView.Renderer {
 		sensor[2] = 0;
 		m_activity = (MainActivity)context;
 		m_DisplaySize = DisplaySize;
+		m_bFrameUpdate = false;
 	}
 
 	@Override
@@ -52,11 +54,16 @@ public class MainSurfaceView implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		m_bFrameUpdate = true;
 		Frame(position, sensor);
+		m_bFrameUpdate = false;
 		position[2] = 0;
 	}
 
 	public void SetTrigger(int x, int y){
+		/*** フレーム更新が終わるのを待つ ***/
+		while(m_bFrameUpdate){}
+
 		position[0] = x;
 		position[1] = y;
 		position[2] = 1;

@@ -10,7 +10,8 @@
 #include "game.h"
 #include "Framework/2DSprite.h"
 #include "Framework/2DPolygon.h"
-#include "Framework/MainManager.h"
+#include "PanelManager.h"
+#include "Framework/MyMath.h"
 
 
 /******************************************************************************/
@@ -113,6 +114,9 @@ int CGame :: Init(void){
     m_apBackgage[3]->SetPosition(&pos);
     m_apBackgage[3]->LinkList(OBJECT_2D_GAME_BACKGROUND);
 
+
+    m_pPanelManager = CPanelManager :: Create();
+
 	return 0;
 }
 
@@ -130,6 +134,7 @@ void CGame :: Final(void){
     m_apBackgage[1]->Release();
     m_apBackgage[2]->Release();
     m_apBackgage[3]->Release();
+    m_pPanelManager->Release();
 }
 
 /*
@@ -138,7 +143,15 @@ void CGame :: Final(void){
  * 内容：更新処理
  */
 void CGame :: Update(void){
+    static unsigned int nFrameCount = 0;
 
+    ++nFrameCount;
+
+    if(nFrameCount == 60){
+        m_pPanelManager->PaddingGray(5);
+    }
+
+    m_pPanelManager->Update();
 }
 
 /*

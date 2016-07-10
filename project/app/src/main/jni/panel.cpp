@@ -72,13 +72,22 @@ CPanel *CPanel :: Create(CTextureManager *pTextureManager, const Vec2 *pPos){
  */
 void CPanel :: Update(void){
 	if(m_bMove){
-		if(((int)m_pos.x == (int)m_TargetPos.x) && ((int)m_pos.y == (int)m_TargetPos.y)){
-			m_bMove = false;
-			m_pos = m_TargetPos;
-			return;
-		}
-		
 		m_pos += m_Move;
+
+		if((m_Move.x < 0.0f) && (m_pos.x < m_TargetPos.x)){
+			m_pos.x = m_TargetPos.x;
+			m_bMove = false;
+		} else if((m_Move.x > 0.0f) && (m_pos.x > m_TargetPos.x)){
+			m_pos.x = m_TargetPos.x;
+			m_bMove = false;
+		} else if((m_Move.y > 0.0f) && (m_pos.y > m_TargetPos.y)){
+			m_pos.y = m_TargetPos.y;
+			m_bMove = false;
+		} else if((m_Move.y < 0.0f) && (m_pos.y < m_TargetPos.y)){
+			m_pos.y = m_TargetPos.y;
+			m_bMove = false;
+		}
+
 		C2DSprite :: SetPosition(&m_pos);
 	}
 	

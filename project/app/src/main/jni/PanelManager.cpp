@@ -12,6 +12,7 @@
 #include "Framework/TextureManager.h"
 #include "panel.h"
 #include "Framework/MyMath.h"
+#include "Framework/MainManager.h"
 #include <math.h>
 
 
@@ -93,6 +94,8 @@ int CPanelManager :: Init(void){
 	m_aField[6][7] = PANEL_BLOCK;
 	m_aField[7][6] = PANEL_BLOCK;
 	m_aField[7][7] = PANEL_BLOCK;
+
+	m_pGyro = CGyro :: Create();
 }
 
 /*
@@ -116,6 +119,8 @@ void CPanelManager :: Release(void){
 	
 	m_pTexGray->Release();
 	m_pTexGrayEffect->Release();
+
+	m_pGyro->Release();
 }
 
 /*
@@ -124,6 +129,66 @@ void CPanelManager :: Release(void){
  * 内容：更新処理
  */
 void CPanelManager :: Update(void){
+	m_pGyro->Update();
+
+	/*** 消えているパネルがあるか調査 ***/
+	bool bErase = false;
+	for(int i = 0; i < FIELD_ROW; ++i){
+		for(int j = 0; j < FIELD_LINE; ++j){
+			if(m_apPanel[i][j]->IsErase()){
+				bErase = true;
+				break;
+			}
+		}
+	}
+
+	if(!bErase) {
+		const INPUT *pInput = CMainManager::GetInput();
+		GYRO_ANGLE angle = m_pGyro->GetGyro();
+
+		/*** パネルの追加 ***/
+		if (pInput[0].flag == 1) {
+			switch (angle) {
+				case GYRO_LEFT:
+					PaddingLeft();
+					break;
+
+				case GYRO_BOTTOM:
+					PaddingDown();
+					break;
+
+				case GYRO_TOP:
+					PaddingUp();
+					break;
+
+				case GYRO_RIGHT:
+					PaddingRight();
+					break;
+			}
+
+		/*** パネルの移動 ***/
+		} else {
+			switch (angle) {
+				case GYRO_LEFT:
+					SlideLeft();
+					break;
+
+				case GYRO_BOTTOM:
+					SlideDown();
+					break;
+
+				case GYRO_TOP:
+					SlideUp();
+					break;
+
+				case GYRO_RIGHT:
+					SlideRight();
+					break;
+			}
+		}
+	}
+
+	/*** パネルの消去 ***/
 	for(int i = 0; i < FIELD_ROW; ++i){
 		for(int j = 0; j < FIELD_LINE; ++j){
 			if((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK) && (m_aField[i][j] != PANEL_GRAY) && (!(m_apPanel[i][j]->IsMove()))){
@@ -140,7 +205,8 @@ void CPanelManager :: Update(void){
 			}
 		}
 	}
-	
+
+	/*** パネルの更新 ***/
 	for(int i = 0; i < FIELD_LINE; ++i){
 		for(int j = 0; j < FIELD_ROW; ++j){
 			m_apPanel[j][i]->Update();
@@ -271,6 +337,34 @@ void CPanelManager :: PaddingUp(void){
 
 /*
  * クラス名：CPanelManager
+ * 関数名：PaddingGray()
+ * 内容：おじゃまを発生させる
+ * 引数：num               ;おじゃまの数
+ */
+void CPanelManager :: PaddingGray(int num){
+	GYRO_ANGLE angle = m_pGyro->GetGyro();
+
+	switch(angle){
+		case GYRO_LEFT:
+			PaddingGrayLeft(num);
+			break;
+
+		case GYRO_RIGHT:
+			PaddingGrayRight(num);
+			break;
+
+		case GYRO_BOTTOM:
+			PaddingGrayDown(num);
+			break;
+
+		case GYRO_TOP:
+			PaddingGrayUp(num);
+			break;
+	}
+}
+
+/*
+ * クラス名：CPanelManager
  * 関数名：PaddingGrayLeft()
  * 内容：左方向におじゃまパネルを敷き詰める
  * 引数：num				;おじゃまパネルの数
@@ -353,7 +447,7 @@ void CPanelManager :: PaddingGrayRight(int num){
 			m_aField[j][i] = PANEL_GRAY;
 			m_apPanel[j][i]->SetTextureManager(m_pTexGray);
 			
-			Vec2 pos(LeftTopPanelPos.x + FIELD_ROW * PANEL_INTERVAL,LeftTopPanelPos.y + i * PANEL_INTERVAL);
+			Vec2 pos(LeftTopPanelPos.x + -1 * PANEL_INTERVAL,LeftTopPanelPos.y + i * PANEL_INTERVAL);
 			m_apPanel[j][i]->SetPosition(&pos);
 				
 			Vec2 target(LeftTopPanelPos.x + PANEL_INTERVAL * j, LeftTopPanelPos.y + PANEL_INTERVAL * i);
@@ -389,7 +483,7 @@ void CPanelManager :: PaddingGrayUp(int num){
 	}
 
 	
-	for(int idx = 0; idx < num; ++j){
+	for(int idx = 0; idx < num; ++idx){
 		j = array[idx];
 		
 		for(i = FIELD_LINE - 1; i >= 0; --i){
@@ -438,7 +532,7 @@ void CPanelManager :: PaddingGrayDown(int num){
 	}
 
 	
-	for(int idx = 0; idx < num; ++j){
+	for(int idx = 0; idx < num; ++idx){
 		j = array[idx];
 		
 		for(i = 0; i < FIELD_LINE; ++i){
@@ -451,7 +545,7 @@ void CPanelManager :: PaddingGrayDown(int num){
 			m_aField[j][i] = PANEL_GRAY;
 			m_apPanel[j][i]->SetTextureManager(m_pTexGray);
 
-			Vec2 pos(LeftTopPanelPos.x + PANEL_INTERVAL * j, LeftTopPanelPos.y + PANEL_INTERVAL * FIELD_LINE);
+			Vec2 pos(LeftTopPanelPos.x + PANEL_INTERVAL * j, LeftTopPanelPos.y + PANEL_INTERVAL * -1);
 			m_apPanel[j][i]->SetPosition(&pos);
 
 			Vec2 target(LeftTopPanelPos.x + PANEL_INTERVAL * j, LeftTopPanelPos.y + PANEL_INTERVAL * i);

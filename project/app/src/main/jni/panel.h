@@ -42,6 +42,10 @@ class CPanel : public C2DSprite {
 			return m_bMove || m_bErase;
 		}
 
+		bool IsErase(void){
+			return m_bErase;
+		}
+
 		void SetPosition(const Vec2 *pPos){
 			m_pos = *pPos;
 		}
