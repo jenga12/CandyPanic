@@ -59,7 +59,7 @@ CPanel *CPanel :: Create(CTextureManager *pTextureManager, const Vec2 *pPos){
 	p->m_pos = *pPos;
 	p->m_TargetPos = *pPos;
 
-	Vec2 size(64.0f, 64.0f);
+	Vec2 size(128.0f, 128.0f);
 	p->m_pEffect = C2DAnimation :: Create(pTextureManager, &size, 4, 8);
 	p->m_pEffect->SetChangeFrame(4);
 	return p;
