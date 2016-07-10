@@ -59,6 +59,7 @@ static const char PANEL_ERASE_TERM = 5;			// いくつ以上繋がればパネ�
 class CPanel;
 class CTextureManager;
 class C2DAnimation;
+class CScore;
 
 class CPanelManager {
 	public:
@@ -103,7 +104,8 @@ class CPanelManager {
 		/*** エフェクトテクスチャ ***/
 		CTextureManager *m_apTexEffect[PANEL_COLOR_NUM];			// エフェクト
 		CTextureManager *m_pTexGrayEffect;							// おじゃまパネルのエフェクト
-		CGyro *m_pGyro;
+		CGyro *m_pGyro;                                             // ジャイロ
+		CScore *m_pScore;
 
 		unsigned int m_nSlideCount;                               // スライド回数
 		unsigned int m_nCombo;                                    // コンボ数

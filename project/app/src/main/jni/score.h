@@ -1,17 +1,17 @@
 /*
- *	File：game.h
+ *	File：score.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：ゲーム処理クラス定義
+ *	Outline：スコア処理クラス定義
  */
 
 #pragma once
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _SCORE_H_
+#define _SCORE_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
-#include "Framework/state.h"
+#include "Framework/2DNumber.h"
 
 
 /******************************************************************************/
@@ -32,32 +32,27 @@
 /******************************************************************************/
 /*                                 クラス定義                                 */
 /******************************************************************************/
-class C2DSprite;
-class C2DPolygon;
-class CPanelManager;
-class CTimer;
-
-class CGame : public CState{
+class CScore {
 	public:
-		CGame();						// コンストラクタ
-		~CGame(){};					// デストラクタ
+		static CScore *Create(void);	// インスタンス生成
+		void Release(void);				// インスタンス破棄
+		void Update(void);                 // 更新処理
+		void AddScore(unsigned int num){  // スコア加算
+			m_nScore += num;
+			
+			if(m_nScore > 9999999){
+				m_nScore = 9999999;
+			}
+		}
 		
-		virtual int Init(void);			// 初期化処理
-		virtual void Final(void);		// 終了処理
-		virtual void Update(void);		// 更新処理
-		virtual void Pause(void);		// 中断処理
-		virtual void Resume(void);		// 再開処理
-
 	private:
-	    C2DSprite *m_pBackground;           // エリア背景
-	    C2DPolygon *m_apBackgage[4];        // ゲージ背景
-	    C2DSprite *m_pLayout;               // ゲーム画面レイアウト
-	    C2DSprite *m_apFrame[2];            // キャラ枠
-
-		CPanelManager *m_pPanelManager;     // パネル管理クラス
-		CTimer *m_pTimer;                   // タイマー
+		CScore();					// コンストラクタ
+		~CScore(){};				// デストラクタ
+	
+		C2DNumber *m_pScore;		// スコア
+		unsigned int m_nDrawScore;	// 描画スコア
+		unsigned int m_nScore;    // 現在のスコア
 };
-
 
 /******************************************************************************/
 /*                              プロトタイプ宣言                              */

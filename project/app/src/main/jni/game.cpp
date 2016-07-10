@@ -12,6 +12,7 @@
 #include "Framework/2DPolygon.h"
 #include "PanelManager.h"
 #include "Framework/MyMath.h"
+#include "timer.h"
 
 
 /******************************************************************************/
@@ -116,6 +117,7 @@ int CGame :: Init(void){
 
 
     m_pPanelManager = CPanelManager :: Create();
+    m_pTimer = CTimer :: Create();
 
 	return 0;
 }
@@ -135,6 +137,7 @@ void CGame :: Final(void){
     m_apBackgage[2]->Release();
     m_apBackgage[3]->Release();
     m_pPanelManager->Release();
+    m_pTimer->Release();
 }
 
 /*
@@ -152,6 +155,7 @@ void CGame :: Update(void){
     }
 
     m_pPanelManager->Update();
+    m_pTimer->Update();
 }
 
 /*

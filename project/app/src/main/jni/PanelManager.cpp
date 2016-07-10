@@ -11,6 +11,7 @@
 #include "Framework/2DAnimation.h"
 #include "Framework/TextureManager.h"
 #include "panel.h"
+#include "score.h"
 #include "Framework/MyMath.h"
 #include "Framework/MainManager.h"
 #include <math.h>
@@ -98,6 +99,7 @@ int CPanelManager :: Init(void){
 	m_aField[7][7] = PANEL_BLOCK;
 
 	m_pGyro = CGyro :: Create();
+	m_pScore = CScore :: Create();
 }
 
 /*
@@ -121,7 +123,7 @@ void CPanelManager :: Release(void){
 	
 	m_pTexGray->Release();
 	m_pTexGrayEffect->Release();
-
+	m_pScore->Release();
 	m_pGyro->Release();
 }
 
@@ -141,6 +143,59 @@ void CPanelManager :: Update(void) {
 				bErase = true;
 				break;
 			}
+		}
+	}
+
+	/*** パネルの移動チェック ***/
+	bool move = false;
+	for (int i = 0; i < FIELD_ROW; ++i) {
+		for (int j = 0; j < FIELD_LINE; ++j) {
+			if (m_apPanel[i][j]->IsMove()) {
+				move = true;
+				break;
+			}
+		}
+	}
+
+	/*** パネルの消去処理 ***/
+	if(!move){
+		int EraseCount = 0;
+		Vec2 pos(0.0f, 0.0f);
+		for (int i = 0; i < FIELD_ROW; ++i) {
+			for (int j = 0; j < FIELD_LINE; ++j) {
+				if ((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK) &&
+				    (m_aField[i][j] != PANEL_GRAY) && (!(m_apPanel[i][j]->IsMove()))) {
+					ClearCheckFlag();
+					m_bCheckFlag[i][j] = false;
+					int count = PanelCount(i, j, m_aField[i][j], 1);
+
+					if (count >= PANEL_ERASE_TERM) {
+						EraseCount += count;
+						ClearCheckFlag();
+						m_bCheckFlag[i][j] = false;
+						PanelErase(i, j, m_aField[i][j]);
+						m_apPanel[i][j]->Erase(m_apTexEffect[m_aField[i][j]]);
+						m_aField[i][j] = PANEL_NONE;
+						pos = Vec2(LeftTopPanelPos.x + PANEL_INTERVAL * i,
+						           LeftTopPanelPos.y + PANEL_INTERVAL * j);
+						move = true;
+
+					}
+				}
+			}
+		}
+
+		/*** パネルが消された ***/
+		if (pos.x != 0.0f) {
+			/*** コンボの継続 ***/
+			if (m_nSlideCount <= 1) {
+				++m_nCombo;
+			} else {
+				m_nCombo = 1;
+			}
+
+			m_pScore->AddScore((unsigned int)(EraseCount * 10.0 * pow(m_nCombo, 1.7)));
+			m_nSlideCount = 0;
 		}
 	}
 
@@ -173,7 +228,7 @@ void CPanelManager :: Update(void) {
 			}
 
 			/*** パネルの移動 ***/
-		} else {
+		} else if(!move){
 			switch (angle) {
 				case GYRO_LEFT:
 					SlideLeft();
@@ -198,59 +253,14 @@ void CPanelManager :: Update(void) {
 		}
 	}
 
-	/*** パネルの移動チェック ***/
-	bool move = false;
-	for (int i = 0; i < FIELD_ROW; ++i) {
-		for (int j = 0; j < FIELD_LINE; ++j) {
-			if (m_apPanel[i][j]->IsMove()) {
-				move = true;
-				break;
-			}
-		}
-	}
-
-	/*** パネルの消去処理 ***/
-	if(!move){
-		Vec2 pos(0.0f, 0.0f);
-		for (int i = 0; i < FIELD_ROW; ++i) {
-			for (int j = 0; j < FIELD_LINE; ++j) {
-				if ((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK) &&
-				    (m_aField[i][j] != PANEL_GRAY) && (!(m_apPanel[i][j]->IsMove()))) {
-					ClearCheckFlag();
-					m_bCheckFlag[i][j] = false;
-
-					if (PanelCount(i, j, m_aField[i][j], 1) >= PANEL_ERASE_TERM) {
-						ClearCheckFlag();
-						m_bCheckFlag[i][j] = false;
-						PanelErase(i, j, m_aField[i][j]);
-						m_apPanel[i][j]->Erase(m_apTexEffect[m_aField[i][j]]);
-						m_aField[i][j] = PANEL_NONE;
-						pos = Vec2(LeftTopPanelPos.x + PANEL_INTERVAL * i,
-						           LeftTopPanelPos.y + PANEL_INTERVAL * j);
-					}
-				}
-			}
-		}
-
-		/*** パネルが消された ***/
-		if (pos.x != 0.0f) {
-			/*** コンボの継続 ***/
-			if (m_nSlideCount < 1) {
-				++m_nCombo;
-			} else {
-				m_nCombo = 1;
-			}
-
-			m_nSlideCount = 0;
-		}
-	}
-
 	/*** パネルの更新 ***/
 	for(int i = 0; i < FIELD_LINE; ++i){
 		for(int j = 0; j < FIELD_ROW; ++j){
 			m_apPanel[j][i]->Update();
 		}
 	}
+
+	m_pScore->Update();
 }
 
 /*
