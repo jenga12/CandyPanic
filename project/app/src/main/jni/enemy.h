@@ -1,17 +1,18 @@
 /*
- *	File：player.h
+ *	File：enemy.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：プレイヤー処理クラス定義
+ *	Outline：敵処理クラス定義
  */
 
 #pragma once
-#ifndef _PLAYER_H_
-#define _PLAYER_H_
+#ifndef _ENEMY_H_
+#define _ENEMY_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
 #include "face.h"
+#include "PanelManager.h"
 
 
 /******************************************************************************/
@@ -32,32 +33,39 @@
 /******************************************************************************/
 /*                                 クラス定義                                 */
 /******************************************************************************/
-class C2DSprite;
+class CPanelManager;
 class C2DPolygon;
+class C2DSprite;
 
-class CPlayer{
+class CEnemy {
 	public:
-		static CPlayer *Create(void);	// インスタンス生成
+		static CEnemy *Create(void);	// インスタンス生成
 		void Release(void);				// インスタンス破棄
-		int Update(float fDensity);		// 更新処理
-	
-		void SetPlayerFace(FACE_TYPE face, int frame);		// プレイヤーの表情を設定
-		
+		void Update(void);				// 更新処理
+		int Damage(int num);			// ダメージを与える
+
+		void SetPanelManager(CPanelManager *pPM){
+			m_pPM = pPM;
+		}
 	private:
+		CEnemy();						// コンストラクタ
+		~CEnemy(){};					// デストラクタ
 		void Init(void);				// 初期化処理
-		CPlayer();						// コンストラクタ
-		~CPlayer(){};					// デストラクタ
 	
-		C2DSprite *m_pIcon;				// プレイヤーアイコン
+		C2DPolygon *m_pAttack;			// アタックゲージ
 		C2DPolygon *m_pLife;			// ライフゲージ
-		C2DPolygon *m_pDensity;			// 密度ゲージ
-	
-		FACE_TYPE m_nCurrentFace;		// 現在の表情
+		C2DSprite *m_pIcon;				// アイコン
+		CPanelManager *m_pPM;			// パネル管理クラス
 		unsigned int m_nFrameCount;		// フレームカウンタ
-		unsigned int m_nFrame;			// フレームカウンタ
+		unsigned int m_nAttackInterval;	// 攻撃間隔	
+		unsigned char m_nCombo;			// 残りコンボ数
+		unsigned int m_nFaceFrameCount;	// 表情変化用フレームカウンタ
+		FACE_TYPE m_nCurrentFace;		// 現在の表情
+		
 		unsigned short m_nLife;			// ライフ
 	
 		static const unsigned short LIFE_SCALE = 4;
+		static const unsigned short ATTACK_INTERVAL_AVERAGE = 420;	// 平均攻撃間隔
 };
 
 /******************************************************************************/

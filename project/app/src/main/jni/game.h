@@ -37,6 +37,7 @@ class C2DPolygon;
 class CPanelManager;
 class CTimer;
 class CPlayer;
+class CEnemy;
 
 class CGame : public CState{
 	public:
@@ -58,6 +59,7 @@ class CGame : public CState{
 		CPanelManager *m_pPanelManager;     // パネル管理クラス
 		CTimer *m_pTimer;                   // タイマー
 		CPlayer *m_pPlayer;                 // プレイヤー
+		CEnemy *m_pEnemy;                   // 敵
 };
 
 

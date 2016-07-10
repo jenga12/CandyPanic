@@ -14,6 +14,7 @@
 #include "Framework/MyMath.h"
 #include "timer.h"
 #include "player.h"
+#include "enemy.h"
 
 
 /******************************************************************************/
@@ -118,6 +119,8 @@ int CGame :: Init(void){
 
     m_pPlayer = CPlayer :: Create();
     m_pPanelManager = CPanelManager :: Create(m_pPlayer);
+    m_pEnemy = CEnemy :: Create();
+    m_pEnemy->SetPanelManager(m_pPanelManager);
     m_pTimer = CTimer :: Create();
 
 
@@ -141,6 +144,7 @@ void CGame :: Final(void){
     m_pPanelManager->Release();
     m_pTimer->Release();
 
+    m_pEnemy->Release();
     m_pPlayer->Release();
 }
 
@@ -161,6 +165,7 @@ void CGame :: Update(void){
     float density = m_pPanelManager->Update();
     m_pTimer->Update();
     m_pPlayer->Update(density);
+    m_pEnemy->Update();
 }
 
 /*
