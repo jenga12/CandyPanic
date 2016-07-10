@@ -38,7 +38,8 @@ enum _2D_OBJECT {
 	OBJECT_2D_PLAYER_ICON,        // プレイヤーアイコン
 	OBJECT_2D_PANEL,               // パネル
 	OBJECT_2D_PANEL_EFFECT,       // パネルエフェクト
-	OBJECT_2D_NUMBER,
+	OBJECT_2D_NUMBER,              // 数字スプライト
+	OBJECT_2D_GAGE,                 // ゲージ
 	MAX_2D_OBJECT
 };
 
@@ -70,14 +71,15 @@ class C2DObject {
 			m_nPriority = nPriority;
 		};
 
+		unsigned int GetPriority(void){
+			return m_nPriority;
+		}
+
 	protected:
 		C2DObject(unsigned int nPriority);		    // コンストラクタ
 		~C2DObject();							    // デストラクタ
 
 	private:
-		static void QuickSort(	unsigned int Lnum, unsigned int Rnum,
-		                          C2DObject **pObjectListTop);	// 描画優先度ソート
-
 		virtual void Draw(void) = 0;					// 描画処理
 
 

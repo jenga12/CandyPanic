@@ -14,6 +14,7 @@
 #include "score.h"
 #include "Framework/MyMath.h"
 #include "Framework/MainManager.h"
+#include "player.h"
 #include <math.h>
 
 
@@ -51,10 +52,12 @@ m_nCombo(0){
  * クラス名：CPanelManager
  * 関数名：Create()
  * 内容：インスタンス生成
+ * 引数：pPlayer           ;プレイヤーオブジェクト
  */
-CPanelManager *CPanelManager :: Create(void){
+CPanelManager *CPanelManager :: Create(CPlayer *pPlayer){
 	CPanelManager *p = new CPanelManager();
 	p->Init();
+	p->m_pPlayer = pPlayer;
 	return p;
 }
 
@@ -132,7 +135,7 @@ void CPanelManager :: Release(void){
  * 関数名：Update()
  * 内容：更新処理
  */
-void CPanelManager :: Update(void) {
+float CPanelManager :: Update(void) {
 	m_pGyro->Update();
 
 	/*** 消えているパネルがあるか調査 ***/
@@ -196,6 +199,7 @@ void CPanelManager :: Update(void) {
 
 			m_pScore->AddScore((unsigned int)(EraseCount * 10.0 * pow(m_nCombo, 1.7)));
 			m_nSlideCount = 0;
+			m_pPlayer->SetPlayerFace(FACE_ANGRY, 60);
 		}
 	}
 
@@ -261,6 +265,17 @@ void CPanelManager :: Update(void) {
 	}
 
 	m_pScore->Update();
+
+	/*** 密度を求める ***/
+	int count = 0;
+	for(int i = 0; i < FIELD_ROW; ++i) {
+		for (int j = 0; j < FIELD_LINE; ++j) {
+			if (m_aField[i][j] != PANEL_NONE) {
+				++count;
+			}
+		}
+	}
+	return ((float)count / (float)(FIELD_ROW * FIELD_LINE));
 }
 
 /*

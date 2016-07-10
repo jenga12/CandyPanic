@@ -40,7 +40,7 @@ static const float PANEL_EFFECT_SCALE_TABLE[PANEL_ERASE_START_TIME] = {1.0f, 1.1
  *	コンストラクタ
  */
 CPanel :: CPanel():
-C2DSprite(9),
+C2DSprite(11),
 m_bErase(false),
 m_bMove(false){
 	
@@ -60,7 +60,7 @@ CPanel *CPanel :: Create(CTextureManager *pTextureManager, const Vec2 *pPos){
 	p->m_TargetPos = *pPos;
 
 	Vec2 size(128.0f, 128.0f);
-	p->m_pEffect = C2DAnimation :: Create(pTextureManager, &size, 4, 8);
+	p->m_pEffect = C2DAnimation :: Create(pTextureManager, &size, 5, 8);
 	p->m_pEffect->SetChangeFrame(4);
 	return p;
 }

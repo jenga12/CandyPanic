@@ -60,12 +60,13 @@ class CPanel;
 class CTextureManager;
 class C2DAnimation;
 class CScore;
+class CPlayer;
 
 class CPanelManager {
 	public:
-		static CPanelManager *Create(void);			// インスタンス生成
+		static CPanelManager *Create(CPlayer *pPlayer);			// インスタンス生成
 		void Release(void);			// インスタンス破棄
-		void Update(void);			// 更新処理
+		float Update(void);			// 更新処理
 		void PaddingGray(int num);     // おじゃまを発生させる
 		void ClearPanel(void);		// パネル消去
 		
@@ -90,7 +91,7 @@ class CPanelManager {
 		void PaddingGrayDown(int num);	// 下方向におじゃまパネルを敷き詰める
 		void PaddingGrayUp(int num);	// 上方向におじゃまパネルを敷き詰める
 
-	void ClearCheckFlag(void);									// チェックフラグをリセットする
+		void ClearCheckFlag(void);									// チェックフラグをリセットする
 		void CreatePanel(int x, int y);								// 指定位置にパネルを生成
 
 		PANEL_COLOR m_aField[FIELD_ROW][FIELD_LINE];				// フィールドデータ
@@ -107,6 +108,7 @@ class CPanelManager {
 		CGyro *m_pGyro;                                             // ジャイロ
 		CScore *m_pScore;
 
+		CPlayer *m_pPlayer;                                         // プレイヤー
 		unsigned int m_nSlideCount;                               // スライド回数
 		unsigned int m_nCombo;                                    // コンボ数
 };

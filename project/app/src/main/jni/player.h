@@ -1,17 +1,16 @@
 /*
- *	File：game.h
+ *	File：player.h
  *	Make：HALTokyo AT-14A-275 Toshiki Chizo
- *	Outline：ゲーム処理クラス定義
+ *	Outline：プレイヤー処理クラス定義
  */
 
 #pragma once
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef _PLAYER_H_
+#define _PLAYER_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
 /******************************************************************************/
-#include "Framework/state.h"
 
 
 /******************************************************************************/
@@ -22,6 +21,12 @@
 /******************************************************************************/
 /*                              マクロ＆定数定義                              */
 /******************************************************************************/
+typedef unsigned char FACE_TYPE;
+static const FACE_TYPE FACE_NORMAL = 0;
+static const FACE_TYPE FACE_ANGRY = 1;
+static const FACE_TYPE FACE_BAD = 2;
+static const FACE_TYPE FACE_SMILE = 3;
+static const FACE_TYPE FACE_MAX = 4;
 
 
 /******************************************************************************/
@@ -34,32 +39,31 @@
 /******************************************************************************/
 class C2DSprite;
 class C2DPolygon;
-class CPanelManager;
-class CTimer;
-class CPlayer;
 
-class CGame : public CState{
+class CPlayer{
 	public:
-		CGame();						// コンストラクタ
-		~CGame(){};					// デストラクタ
+		static CPlayer *Create(void);	// インスタンス生成
+		void Release(void);				// インスタンス破棄
+		int Update(float fDensity);		// 更新処理
+	
+		void SetPlayerFace(FACE_TYPE face, int frame);		// プレイヤーの表情を設定
 		
-		virtual int Init(void);			// 初期化処理
-		virtual void Final(void);		// 終了処理
-		virtual void Update(void);		// 更新処理
-		virtual void Pause(void);		// 中断処理
-		virtual void Resume(void);		// 再開処理
-
 	private:
-	    C2DSprite *m_pBackground;           // エリア背景
-	    C2DPolygon *m_apBackgage[4];        // ゲージ背景
-	    C2DSprite *m_pLayout;               // ゲーム画面レイアウト
-	    C2DSprite *m_apFrame[2];            // キャラ枠
-
-		CPanelManager *m_pPanelManager;     // パネル管理クラス
-		CTimer *m_pTimer;                   // タイマー
-		CPlayer *m_pPlayer;                 // プレイヤー
+		void Init(void);				// 初期化処理
+		CPlayer();						// コンストラクタ
+		~CPlayer(){};					// デストラクタ
+	
+		C2DSprite *m_pIcon;				// プレイヤーアイコン
+		C2DPolygon *m_pLife;			// ライフゲージ
+		C2DPolygon *m_pDensity;			// 密度ゲージ
+	
+		FACE_TYPE m_nCurrentFace;		// 現在の表情
+		unsigned int m_nFrameCount;		// フレームカウンタ
+		unsigned int m_nFrame;			// フレームカウンタ
+		unsigned short m_nLife;			// ライフ
+	
+		static const unsigned short LIFE_SCALE = 4;
 };
-
 
 /******************************************************************************/
 /*                              プロトタイプ宣言                              */
