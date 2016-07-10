@@ -36,12 +36,12 @@ static const float PANEL_MOVE_SPEED = 36.0f;
 /*** パネル種別の定数 ***/
 typedef char PANEL_COLOR;
 static const PANEL_COLOR PANEL_NONE = -1;		// パネルがない
-static const PANEL_COLOR PANEL_BLUE = 0;		// 青色パネル
+static const PANEL_COLOR PANEL_PINK = 0;		// 桃色パネル
 static const PANEL_COLOR PANEL_CYAN = 1;		// 水色パネル
 static const PANEL_COLOR PANEL_GREEN = 2;		// 緑色パネル
 static const PANEL_COLOR PANEL_ORANGE = 3;		// 橙色パネル
-static const PANEL_COLOR PANEL_PINK = 4;		// 桃色パネル
-static const PANEL_COLOR PANEL_COLOR_NUM = 5;	// パネルの色数
+static const PANEL_COLOR PANEL_BLUE = 4;		// 青色パネル
+static const PANEL_COLOR PANEL_COLOR_NUM = 4;	// パネルの色数
 static const PANEL_COLOR PANEL_GRAY = 125;		// おじゃまパネル
 static const PANEL_COLOR PANEL_BLOCK = 127;		// ブロック
 
@@ -105,6 +105,8 @@ class CPanelManager {
 		CTextureManager *m_pTexGrayEffect;							// おじゃまパネルのエフェクト
 		CGyro *m_pGyro;
 
+		unsigned int m_nSlideCount;                               // スライド回数
+		unsigned int m_nCombo;                                    // コンボ数
 };
 
 

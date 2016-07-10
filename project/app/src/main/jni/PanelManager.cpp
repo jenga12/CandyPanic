@@ -40,7 +40,9 @@
 /*
  *	コンストラクタ
  */
-CPanelManager :: CPanelManager(){
+CPanelManager :: CPanelManager():
+m_nSlideCount(0),
+m_nCombo(0){
 	
 }
 
@@ -151,18 +153,22 @@ void CPanelManager :: Update(void){
 			switch (angle) {
 				case GYRO_LEFT:
 					PaddingLeft();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_BOTTOM:
 					PaddingDown();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_TOP:
 					PaddingUp();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_RIGHT:
 					PaddingRight();
+					++m_nSlideCount;
 					break;
 			}
 
@@ -171,24 +177,29 @@ void CPanelManager :: Update(void){
 			switch (angle) {
 				case GYRO_LEFT:
 					SlideLeft();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_BOTTOM:
 					SlideDown();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_TOP:
 					SlideUp();
+					++m_nSlideCount;
 					break;
 
 				case GYRO_RIGHT:
 					SlideRight();
+					++m_nSlideCount;
 					break;
 			}
 		}
 	}
 
 	/*** パネルの消去 ***/
+	Vec2 pos(0.0f, 0.0f);
 	for(int i = 0; i < FIELD_ROW; ++i){
 		for(int j = 0; j < FIELD_LINE; ++j){
 			if((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK) && (m_aField[i][j] != PANEL_GRAY) && (!(m_apPanel[i][j]->IsMove()))){
@@ -201,9 +212,22 @@ void CPanelManager :: Update(void){
 					PanelErase(i, j, m_aField[i][j]);
 					m_apPanel[i][j]->Erase(m_apTexEffect[m_aField[i][j]]);
 					m_aField[i][j] = PANEL_NONE;
+					pos = Vec2(LeftTopPanelPos.x + PANEL_INTERVAL * i, LeftTopPanelPos.y + PANEL_INTERVAL * j);
 				}
 			}
 		}
+	}
+
+	/*** パネルが消された ***/
+	if(pos.x != 0.0f){
+		/*** コンボの継続 ***/
+		if(m_nSlideCount < 1){
+			++m_nCombo;
+		} else {
+			m_nCombo = 1;
+		}
+
+		m_nSlideCount = 0;
 	}
 
 	/*** パネルの更新 ***/

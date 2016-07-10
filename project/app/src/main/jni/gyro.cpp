@@ -103,7 +103,5 @@ void CGyro :: Update(void){
 		}
 	}
 
-	if(angle != GYRO_HORIZON){
-		m_angle = angle;
-	}
+	m_angle = angle;
 }
