@@ -10,6 +10,7 @@
 #include "player.h"
 #include "Framework/2DPolygon.h"
 #include "Framework/2DSprite.h"
+#include "Framework/sound.h"
 
 
 /******************************************************************************/
@@ -61,6 +62,7 @@ static Color_32 g_ColorRed[5] = {
 CPlayer :: CPlayer():
 m_nLife(250*LIFE_SCALE),
 m_nFrameCount(0),
+m_bAlarm(false),
 m_nCurrentFace(FACE_SMILE){
 	
 }
@@ -113,6 +115,8 @@ void CPlayer :: Init(void){
 	m_pDensity = C2DPolygon :: Create(5, aVtx, 9);
 	m_pDensity->SetPosition(&pos);
 	m_pDensity->LinkList(OBJECT_2D_GAGE);
+
+	m_pAlarm = CSound :: Create("alarm.wav");
 }
 
 /*
@@ -124,6 +128,7 @@ void CPlayer :: Release(void){
 	m_pIcon->Release();
 	m_pLife->Release();
 	m_pDensity->Release();
+	m_pAlarm->Release();
 	delete this;
 }
 
@@ -144,10 +149,18 @@ int CPlayer :: Update(float fDensity, bool bErase) {
 		if(!bErase) {
 			m_nLife -= 50;
 		}
+		if(!m_bAlarm && (m_nLife != 0)){
+			m_pAlarm->Play(true, true);
+			m_bAlarm = true;
+		}
 	} else if(fDensity >= 0.95f) {
 		m_pDensity->SetColor(g_ColorRed);
 		if(!bErase) {
 			m_nLife -= 2;
+		}
+		if(!m_bAlarm && (m_nLife != 0)){
+			m_pAlarm->Play(true, true);
+			m_bAlarm = true;
 		}
 
 	} else if(fDensity >= 0.85f) {
@@ -155,18 +168,37 @@ int CPlayer :: Update(float fDensity, bool bErase) {
 		if(!bErase) {
 			--m_nLife;
 		}
+
+		if(!m_bAlarm && (m_nLife != 0)){
+			m_pAlarm->Play(true, true);
+			m_bAlarm = true;
+		}
+
 	} else if(fDensity >= 0.8f){
 		m_pDensity->SetColor(g_ColorRed);
+		if(m_bAlarm){
+			m_pAlarm->Pause();
+			m_bAlarm = false;
+		}
 		
 	} else if(fDensity >= 0.6f){		
 		m_pDensity->SetColor(g_ColorYellow);
-		
+		if(m_bAlarm){
+			m_pAlarm->Pause();
+			m_bAlarm = false;
+		}
+
 	} else {
 		m_pDensity->SetColor(g_ColorCyan);
+		if(m_bAlarm){
+			m_pAlarm->Pause();
+			m_bAlarm = false;
+		}
 	}
 
 	if(m_nLife > LIFE_SCALE * 250){
 		m_nLife = 0;
+		m_pAlarm->Pause();
 	}
 	
 	Vec2 pos(-105.0f + nDensity, 431.0f);

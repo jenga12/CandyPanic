@@ -9,6 +9,7 @@
 /******************************************************************************/
 #include "title.h"
 #include "Framework/2DSprite.h"
+#include "Framework/sound.h"
 #include "Framework/MainManager.h"
 #include "game.h"
 #include <math.h>
@@ -68,9 +69,13 @@ int CTitle :: Init(void){
 	m_pLogo->SetScaling(&scl);
 	m_pLogo->LinkList(OBJECT_2D_TITLE_BACKGROUND);
 
+	m_pTapSE = CSound :: Create("erase.wav");
+	m_pBGM = CSound :: Create("title.wav");
+	m_pBGM->Play(true, true);
+
 	/*** フェーズ処理クラス生成 ***/
 	m_pLogoAnim = new CTitlePhaseLogoAnim(m_pLogo);
-	m_pTapWait = new CTitlePhaseTapWait(m_pTap);
+	m_pTapWait = new CTitlePhaseTapWait(m_pTap, m_pTapSE);
 	m_pNext = new CTitlePhaseNext(m_pTap);
 
 	m_pCurrentPhase = m_pLogoAnim;
@@ -90,6 +95,10 @@ void CTitle :: Final(void){
 	m_pLogo->Release();
 	m_pTap->Release();
 	m_pBackground->Release();
+
+	m_pBGM->Pause();
+	m_pBGM->Release();
+	m_pTapSE->Release();
 }
 
 /*
@@ -116,7 +125,7 @@ void CTitle :: Update(void){
  * 内容：中断処理
  */
 void CTitle :: Pause(void){
-	
+	m_pBGM->Pause();
 }
 
 /*
@@ -125,7 +134,7 @@ void CTitle :: Pause(void){
  * 内容：再開処理
  */
 void CTitle :: Resume(void){
-	
+	m_pBGM->Play(false, true);
 }
 
 //*************************************************
@@ -175,7 +184,7 @@ int CTitlePhaseTapWait :: Update(void){
 	/*** タップされたら次のフェーズへ ***/
 	const INPUT *pInput = CMainManager :: GetInput();
 	if(pInput[0].flag == 1){
-
+		m_pTapSE->Play(true, false);
 		return 2;
 	}
 

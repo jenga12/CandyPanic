@@ -6,7 +6,7 @@
 
 #pragma once
 #ifndef _PANEL_H_
-#define _PANEL_H_ 
+#define _PANEL_H_
 
 /******************************************************************************/
 /*                            インクルードファイル                            */
@@ -33,7 +33,6 @@
 /*                                 クラス定義                                 */
 /******************************************************************************/
 class C2DAnimation;
-
 class CPanel : public C2DSprite {
 	public:
 		static CPanel *Create(CTextureManager *pTextureManager, const Vec2 *pPos);			// パネルの生成
@@ -49,7 +48,7 @@ class CPanel : public C2DSprite {
 		void SetPosition(const Vec2 *pPos){
 			m_pos = *pPos;
 		}
-		
+
 		void SetTarget(const Vec2 *pPos, const Vec2 *pMove){		// 移動目標地点を設定
 			m_TargetPos = *pPos;
 			m_Move = *pMove;
@@ -59,11 +58,11 @@ class CPanel : public C2DSprite {
 			m_bEnd = true;
 		}
 		void Erase(CTextureManager *pPanelEffectTex);				// パネルを消去する
-		
+
 	private:
 		CPanel();					// コンストラクタ
 		~CPanel(){};				// デストラクタ
-	
+
 		bool m_bMove;				// 移動フラグ
 		bool m_bErase;				// 削除フラグ
 		bool m_bEnd;               // ゲーム終了
@@ -71,6 +70,7 @@ class CPanel : public C2DSprite {
 		Vec2 m_TargetPos;			// 目的の表示位置
 		Vec2 m_Move;				// 移動量
 		C2DAnimation *m_pEffect;	// エフェクト
+
 		int m_nFrameCount;			// フレームカウンタ
 };
 

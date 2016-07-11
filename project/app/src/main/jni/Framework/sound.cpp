@@ -141,6 +141,7 @@ void CSound :: Init(const char *pFileName){
     (*m_bqPlayerObject)->GetInterface(m_bqPlayerObject, SL_IID_BUFFERQUEUE, &m_bqPlayerBufferQueue);
 	(*m_bqPlayerObject)->GetInterface(m_bqPlayerObject, SL_IID_VOLUME, &m_bqPlayerVolume);
 
+
 	/*** コールバック設定 ***/
 	(*m_bqPlayerBufferQueue)->RegisterCallback(m_bqPlayerBufferQueue, CallbackWAV, this);
 
@@ -163,7 +164,9 @@ void CSound :: Init(const char *pFileName){
 void CSound :: Release(void){
 	(*m_bqPlayerPlay)->SetPlayState(m_bqPlayerPlay, SL_PLAYSTATE_STOPPED);
 	(*m_bqPlayerBufferQueue)->Clear(m_bqPlayerBufferQueue);
-    (*m_OutputMixObject)->Destroy(m_OutputMixObject);
+	(*m_bqPlayerObject)->Destroy(m_bqPlayerObject);
+	(*m_OutputMixObject)->Destroy(m_OutputMixObject);
+
 
 	delete[] m_pBuff[1];
 	delete[] m_pBuff[0];

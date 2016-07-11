@@ -74,7 +74,11 @@ class C2DNumber {
 		                             int nDigit, bool bRight, bool bZero);
 		void Release(void);					// インスタンス破棄
 		void SetNumber(unsigned int num);		// 描画数字を設定する
-
+		void Destroy(void){
+			for(int i = 0; i < m_nDigit; ++i) {
+				m_ppSingleNumber[i]->Destroy();
+			}
+		}
 		void LinkList(void){
 			for(int i = 0; i < m_nDigit; ++i) {
 				m_ppSingleNumber[i]->LinkList();

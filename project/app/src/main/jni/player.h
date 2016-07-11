@@ -34,6 +34,7 @@
 /******************************************************************************/
 class C2DSprite;
 class C2DPolygon;
+class CSound;
 
 class CPlayer{
 	public:
@@ -60,7 +61,9 @@ class CPlayer{
 		unsigned int m_nFrameCount;		// フレームカウンタ
 		unsigned int m_nFrame;			// フレームカウンタ
 		unsigned short m_nLife;			// ライフ
-	
+
+		CSound *m_pAlarm;               // アラーム
+		bool m_bAlarm;                  // アラーム再生フラグ
 		static const unsigned short LIFE_SCALE = 4;
 };
 

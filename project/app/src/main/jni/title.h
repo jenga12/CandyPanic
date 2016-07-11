@@ -34,6 +34,7 @@
 /*                                 クラス定義                                 */
 /******************************************************************************/
 class C2DSprite;
+class CSound;
 
 class CTitlePhaseLogoAnim : public CPhase{
 	public:
@@ -57,8 +58,9 @@ class CTitlePhaseLogoAnim : public CPhase{
 
 class CTitlePhaseTapWait : public CPhase{
 	public:
-		CTitlePhaseTapWait(C2DSprite *pTap):
+		CTitlePhaseTapWait(C2DSprite *pTap, CSound *pTapSE):
 				m_pTap(pTap),
+				m_pTapSE(pTapSE),
 				m_nFrameCount(0){
 
 		};
@@ -71,6 +73,7 @@ class CTitlePhaseTapWait : public CPhase{
 		unsigned int m_nFrameCount;                       // フレームカウンタ
 		static const unsigned int SWITCH_FRAME = 31;     // tap to start 表示切替時間
 		static const unsigned int FRAME_RESET = 63;     // フレームカウンタリセット
+		CSound *m_pTapSE;                                  // Tap効果音
 };
 
 class CTitlePhaseNext : public CPhase{
@@ -111,6 +114,9 @@ class CTitle : public CState {
 		CTitlePhaseLogoAnim *m_pLogoAnim;   // ロゴアニメーションフェーズ
 		CTitlePhaseTapWait *m_pTapWait;     // タップ待ちフェーズ
 		CTitlePhaseNext *m_pNext;           // ステート変更フェーズ
+
+		CSound *m_pTapSE;                   // タップ効果音
+		CSound *m_pBGM;                     // BGM
 };
 
 /******************************************************************************/

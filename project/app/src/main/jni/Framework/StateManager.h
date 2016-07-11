@@ -59,6 +59,8 @@ class CStateManager {
 			if(m_pCurrentState == m_pNextState){
 				m_pNextState = pNextState;
 				m_pFade->Start(FADE_OUT, STATE_CHANGE_FADE_FRAME);
+			} else {
+				delete pNextState;
 			}
 		}
 

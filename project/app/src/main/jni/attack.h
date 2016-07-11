@@ -33,6 +33,8 @@
 /*                                 クラス定義                                 */
 /******************************************************************************/
 class CEnemy;
+class CSound;
+
 class CAttack : public C2DAnimation {
 	public:
 		static CAttack *Create(CEnemy *pEnemy); // インスタンス生成
@@ -43,7 +45,7 @@ class CAttack : public C2DAnimation {
 		}
 		
 		void Start(const Vec2 *pDefaultPos, int damage);// エフェクトスタート
-			
+
 	private:
 		CAttack();						// コンストラクタ
 		~CAttack(){};					// デストラクタ
@@ -57,6 +59,8 @@ class CAttack : public C2DAnimation {
 		bool m_bHit;					// ヒットアニメーションフラグ
 		int m_nDamage;                 // ダメージ量
 		CEnemy *m_pEnemy;               // 敵
+
+		static CSound *m_pHitSE;
 };
 
 

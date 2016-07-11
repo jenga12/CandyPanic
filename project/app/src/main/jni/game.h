@@ -78,12 +78,14 @@ class CGamePhaseMain : public CPhase {
 
 class CGamePhaseWin : public CPhase{
 	public:
-		CGamePhaseWin(C2DSprite *pWin, C2DSprite *pFinish, CPanelManager *pPM, CPlayer *pPlayer, CEnemy *pEnemy):
+		CGamePhaseWin(C2DSprite *pWin, C2DSprite *pFinish, CPanelManager *pPM, CPlayer *pPlayer, CEnemy *pEnemy, CSound *pWhistle, CSound *pSuccess):
 		m_pPanelManager(pPM),
 		m_pPlayer(pPlayer),
 		m_pWin(pWin),
 		m_nFrameCount(0),
 		m_pFinish(pFinish),
+		m_pSuccess(pSuccess),
+		m_pWhistle(pWhistle),
 		m_pos(Vec2(640.0f, -250.0f)),
 		m_fMove(-20.0f),
 		m_pEnemy(pEnemy){};					// コンストラクタ
@@ -97,7 +99,9 @@ class CGamePhaseWin : public CPhase{
 		CPanelManager *m_pPanelManager;		// パネル管理クラス
 		CPlayer *m_pPlayer;					// プレイヤー処理クラス
 		CEnemy *m_pEnemy;					// 敵処理クラス
-		
+		CSound *m_pWhistle;                 // ホイッスルSE
+		CSound *m_pSuccess;                 // 勝利ME
+
 		float m_fMove;						// 移動量
 		Vec2 m_pos;							// WIN!表示位置
 		unsigned int m_nFrameCount;			// フレームカウンタ
@@ -105,12 +109,14 @@ class CGamePhaseWin : public CPhase{
 
 class CGamePhaseLose : public CPhase{
 	public:
-		CGamePhaseLose(C2DSprite *pLose, C2DSprite *pFinish, CPanelManager *pPM, CPlayer *pPlayer, CEnemy *pEnemy):
+		CGamePhaseLose(C2DSprite *pLose, C2DSprite *pFinish, CPanelManager *pPM, CPlayer *pPlayer, CEnemy *pEnemy, CSound *pWhistle, CSound *pFailed):
 		m_pPanelManager(pPM),
 		m_pLose(pLose),
 		m_pFinish(pFinish),
 		m_pPlayer(pPlayer),
 		m_nFrameCount(0),
+		m_pWhistle(pWhistle),
+		m_pFailed(pFailed),
 		m_pos(Vec2(640.0f, -250.0f)),
 		m_pEnemy(pEnemy){}						// コンストラクタ
 		~CGamePhaseLose(){};					// デストラクタ
@@ -123,7 +129,8 @@ class CGamePhaseLose : public CPhase{
 		CPanelManager *m_pPanelManager;			// パネル管理クラス
 		CPlayer *m_pPlayer;						// プレイヤー処理クラス
 		CEnemy *m_pEnemy;						// 敵処理クラス
-		
+		CSound *m_pFailed;                      // 敗北ME
+		CSound *m_pWhistle;                     // ホイッスルSE
 		Vec2 m_pos;								// Lose...描画位置
 		unsigned int m_nFrameCount;				// フレームカウンタ
 };
@@ -160,7 +167,11 @@ class CGame : public CState{
 		CGamePhaseMain *m_pPhaseMain;				// ゲームメインフェーズ
 		CGamePhaseWin *m_pPhaseWin;					// 勝ったときのゲーム終了フェーズ
 		CGamePhaseLose *m_pPhaseLose;				// 負けたときのゲーム終了フェーズ
-	
+
+		CSound *m_pBGM;                             // BGM
+		CSound *m_pFailedME;                        // 敗北時ME
+		CSound *m_pSuccessME;                       // 勝利時ME
+		CSound *m_pWhistleSE;                       // ホイッスルSE
 		CSound *m_pSECountDown;						// カウントダウンSE
 };
 

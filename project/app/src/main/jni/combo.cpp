@@ -73,8 +73,8 @@ void CCombo :: Init(void){
  * 内容：インスタンス破棄
  */
 void CCombo :: Release(void){
-	m_pCombo->Release();
-	m_pNumber->Release();
+	m_pCombo->Destroy();
+	m_pNumber->Destroy();
 	delete this;
 }
 

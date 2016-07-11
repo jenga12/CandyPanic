@@ -12,6 +12,7 @@
 #include "Framework/TextureManager.h"
 #include "panel.h"
 #include "score.h"
+#include "Framework/sound.h"
 #include "Framework/MyMath.h"
 #include "Framework/MainManager.h"
 #include "player.h"
@@ -116,6 +117,10 @@ int CPanelManager :: Init(CEnemy *pEnemy){
 	m_apCombo[0] = CCombo :: Create();
 	m_apCombo[1] = CCombo :: Create();
 	m_apCombo[2] = CCombo :: Create();
+
+	m_pEraseSE = CSound :: Create("erase.wav");
+	m_pPaddingSE = CSound :: Create("padding.wav");
+	m_pEnemyAttackSE = CSound :: Create("enemy_attack.wav");
 }
 
 /*
@@ -127,8 +132,8 @@ void CPanelManager :: Release(void){
 	/*** パネルとエフェクトの破棄 ***/
 	for(int i = 0; i < FIELD_LINE; ++i){
 		for(int j = 0; j < FIELD_ROW; ++j){
-			m_apPanel[j][i]->Release();			// テクスチャは勝手に破棄される
-			m_apPanel[j][i]->SetTextureManager(NULL);
+			m_apPanel[j][i]->Release();
+			m_apPanel[j][i]->Destroy();			// テクスチャは勝手に破棄される
 		}
 	}
 	
@@ -144,12 +149,16 @@ void CPanelManager :: Release(void){
 	m_pGyro->Release();
 
 	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
-		m_apAttack[i]->Release();
+		m_apAttack[i]->Destroy();
 	}
 
 	m_apCombo[0]->Release();
 	m_apCombo[1]->Release();
 	m_apCombo[2]->Release();
+
+	m_pPaddingSE->Release();
+	m_pEraseSE->Release();
+	m_pEnemyAttackSE->Release();
 }
 
 /*
@@ -222,11 +231,13 @@ void CPanelManager :: Update(void) {
 									break;
 								}
 							}
+
+							m_pEraseSE->Play(true, false);
 						}
 
 						for(int k = 0; k < ATTACK_EFFECT_MAX; ++k){
 							if(!(m_apAttack[k]->Use())){
-								m_apAttack[k]->Start(&pos, (count * m_nCombo) / 1);
+								m_apAttack[k]->Start(&pos, (count * m_nCombo) / 3);
 								break;
 							}
 						}
@@ -252,21 +263,25 @@ void CPanelManager :: Update(void) {
 			switch (angle) {
 				case GYRO_LEFT:
 					PaddingLeft();
+					m_pPaddingSE->Play(true, false);
 					++m_nSlideCount;
 					break;
 
 				case GYRO_BOTTOM:
 					PaddingDown();
+					m_pPaddingSE->Play(true, false);
 					++m_nSlideCount;
 					break;
 
 				case GYRO_TOP:
 					PaddingUp();
+					m_pPaddingSE->Play(true, false);
 					++m_nSlideCount;
 					break;
 
 				case GYRO_RIGHT:
 					PaddingRight();
+					m_pPaddingSE->Play(true, false);
 					++m_nSlideCount;
 					break;
 			}
@@ -307,10 +322,12 @@ void CPanelManager :: Update(void) {
 					if (m_nGrayRemain > FIELD_LINE) {
 						m_nGrayRemain -= FIELD_LINE;
 						PaddingGrayLeft(m_nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					} else {
 						int nGrayRemain = m_nGrayRemain;
 						m_nGrayRemain = 0;
 						PaddingGrayLeft(nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					}
 					break;
 
@@ -318,10 +335,12 @@ void CPanelManager :: Update(void) {
 					if (m_nGrayRemain > FIELD_LINE) {
 						m_nGrayRemain -= FIELD_LINE;
 						PaddingGrayRight(m_nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					} else {
 						int nGrayRemain = m_nGrayRemain;
 						m_nGrayRemain = 0;
 						PaddingGrayRight(nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					}
 					break;
 
@@ -329,10 +348,12 @@ void CPanelManager :: Update(void) {
 					if (m_nGrayRemain > FIELD_ROW) {
 						m_nGrayRemain -= FIELD_ROW;
 						PaddingGrayDown(m_nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					} else {
 						int nGrayRemain = m_nGrayRemain;
 						m_nGrayRemain = 0;
 						PaddingGrayDown(nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					}
 					break;
 
@@ -340,10 +361,12 @@ void CPanelManager :: Update(void) {
 					if (m_nGrayRemain > FIELD_ROW) {
 						m_nGrayRemain -= FIELD_ROW;
 						PaddingGrayUp(m_nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					} else {
 						int nGrayRemain = m_nGrayRemain;
 						m_nGrayRemain = 0;
 						PaddingGrayUp(nGrayRemain);
+						m_pEnemyAttackSE->Play(true, false);
 					}
 
 					break;

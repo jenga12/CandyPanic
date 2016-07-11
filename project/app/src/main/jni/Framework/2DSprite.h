@@ -77,7 +77,7 @@ class C2DSprite : public C2DObject{
 		}
 
 
-		void Destroy(void);					// インスタンス破棄
+		virtual void Destroy(void);					// インスタンス破棄
 
 	protected:
 		C2DSprite(unsigned int nPriority);	// コンストラクタ

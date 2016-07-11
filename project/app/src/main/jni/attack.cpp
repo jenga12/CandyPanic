@@ -10,11 +10,13 @@
 #include "attack.h"
 #include "Framework/MyMath.h"
 #include "enemy.h"
+#include "Framework/sound.h"
 
 
 /******************************************************************************/
 /*                               静的変数初期化                               */
 /******************************************************************************/
+CSound *CAttack :: m_pHitSE = NULL;
 
 
 /******************************************************************************/
@@ -74,6 +76,10 @@ void CAttack :: Init(void){
 	m_pHit->SetPosition(&pos);
 	m_pHit->SetChangeFrame(4);
 	m_pHit->SetScaling(&scl);
+
+	if(m_pHitSE == NULL){
+		m_pHitSE = CSound :: Create("player_attack.wav");
+	}
 }
 
 /*
@@ -82,8 +88,14 @@ void CAttack :: Init(void){
  * 内容：インスタンス破棄
  */
 void CAttack :: Destroy(void){
-	C2DAnimation :: Destroy();
 	m_pHit->Release();
+
+	if(m_pHitSE != NULL){
+		m_pHitSE->Release();
+		m_pHitSE = NULL;
+	}
+
+	C2DAnimation :: Destroy();
 }
 
 /*
@@ -121,6 +133,7 @@ void CAttack :: Update(void){
 		m_pHit->Seek(0);
 		m_pHit->LinkList(OBJECT_2D_ATTACK_EFFECT );
 		m_pHit->Play();
+		m_pHitSE->Play(true, false);
 		m_bHit = true;
 		m_fTime = 0.0f;
 		m_pEnemy->Damage(m_nDamage);

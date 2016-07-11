@@ -66,6 +66,7 @@ class CPlayer;
 class CAttack;
 class CEnemy;
 class CCombo;
+class CSound;
 
 class CPanelManager {
 	public:
@@ -120,6 +121,10 @@ class CPanelManager {
 		unsigned int m_nCombo;                                    // コンボ数
 		unsigned int m_nGrayRemain;                               // 出現させられていないおじゃまの残り
 		CAttack *m_apAttack[ATTACK_EFFECT_MAX];                     // 攻撃エフェクト
+
+		CSound *m_pEraseSE;         // パネル消去SE
+        CSound *m_pPaddingSE;       // パネル挿入SE
+        CSound *m_pEnemyAttackSE;   // 敵の攻撃SE
 
 		CCombo *m_apCombo[3];                                          // コンボ数
 };

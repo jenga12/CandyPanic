@@ -150,6 +150,8 @@ int C2DSprite :: Init(CTextureManager *pTextureManager, const Vec2 *pSize){
  * 内容：インスタンス破棄
  */
 void C2DSprite :: Destroy(void){
+	UnlinkList();
+
 	if(m_pTextureManager != NULL) {
 		m_pTextureManager->Release();
 	}

@@ -146,14 +146,20 @@ int CGame :: Init(void){
 	size = Vec2(512.0f, 256.0f);
 	m_pWin = C2DSprite :: Create("game/win.img", &size, 1);
 	m_pWin->SetPosition(&pos);
-	
+
+	m_pBGM = CSound :: Create("strawberry.wav");
+	m_pBGM->Play(true, true);
+
+	m_pFailedME = CSound :: Create("failed.wav");
+	m_pSuccessME = CSound :: Create("success.wav");
+	m_pWhistleSE = CSound :: Create("whistle.wav");
 	m_pSECountDown = CSound :: Create("countdown.wav");
 
 	
 	m_pPhaseCountDown = new CGamePhaseCountDown(m_apCountDown, m_pSECountDown);
 	m_pPhaseMain = new CGamePhaseMain(m_pPanelManager, m_pTimer, m_pPlayer, m_pEnemy);
-	m_pPhaseWin = new CGamePhaseWin(m_pWin, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy);
-	m_pPhaseLose = new CGamePhaseLose(m_pLose, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy);
+	m_pPhaseWin = new CGamePhaseWin(m_pWin, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy, m_pWhistleSE, m_pSuccessME);
+	m_pPhaseLose = new CGamePhaseLose(m_pLose, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy, m_pWhistleSE, m_pFailedME);
 	
 	m_pCurrentPhase = m_pPhaseCountDown;
 	return 0;
@@ -179,13 +185,20 @@ void CGame :: Final(void){
     m_pEnemy->Release();
     m_pPlayer->Release();
 	
-	m_apCountDown[0]->Release();
-	m_apCountDown[1]->Release();
-	m_apCountDown[2]->Release();
-	m_apCountDown[3]->Release();
-	m_pFinish->Release();
-	m_pWin->Release();
-	m_pLose->Release();
+	m_apCountDown[0]->Destroy();
+	m_apCountDown[1]->Destroy();
+	m_apCountDown[2]->Destroy();
+	m_apCountDown[3]->Destroy();
+	m_pFinish->Destroy();
+	m_pWin->Destroy();
+	m_pLose->Destroy();
+
+	m_pBGM->Pause();
+	m_pBGM->Release();
+	m_pSuccessME->Release();
+	m_pFailedME->Release();
+	m_pWhistleSE->Release();
+	m_pSECountDown->Release();
 	
 	delete m_pPhaseCountDown;
 	delete m_pPhaseMain;
@@ -206,9 +219,11 @@ void CGame :: Update(void){
 			m_pCurrentPhase = m_pPhaseMain;
 			break;
 		case 2:
+		    m_pBGM->Pause();
 			m_pCurrentPhase = m_pPhaseWin;
 			break;
 		case 3:
+	        m_pBGM->Pause();
 			m_pCurrentPhase = m_pPhaseLose;
 			break;
 	}
@@ -220,7 +235,7 @@ void CGame :: Update(void){
  * 内容：中断処理
  */
 void CGame :: Pause(void){
-	
+	m_pBGM->Pause();
 }
 
 /*
@@ -229,7 +244,7 @@ void CGame :: Pause(void){
  * 内容：再開処理
  */
 void CGame :: Resume(void){
-	
+	m_pBGM->Play(false, true);
 }
 
 //*************************************************
@@ -279,12 +294,14 @@ int CGamePhaseWin :: Update(void){
 	if(m_nFrameCount == 0){
 		m_pFinish->LinkList(OBJECT_2D_LOGO);
 		m_pPanelManager->ClearAll();
+		m_pWhistle->Play(true, false);
 	}
 	
 	if(m_nFrameCount == 120){
 		m_pFinish->UnlinkList();
 		m_pPlayer->SetPlayerFace(FACE_SMILE, 9999999);
 		m_pEnemy->SetEnemyFace(FACE_BAD);
+		m_pSuccess->Play(true, false);
 	}
 	
 	if((120 <= m_nFrameCount) && (m_nFrameCount < 135)){
@@ -307,10 +324,12 @@ int CGamePhaseWin :: Update(void){
 	m_pWin->SetPosition(&m_pos);
 	
 	++m_nFrameCount;
-	
-	const INPUT *pInput = CMainManager :: GetInput();
-	if(pInput[0].flag == 1){
-		CStateManager :: SetNextState(new CTitle());
+
+	if(m_nFrameCount > 300) {
+		const INPUT *pInput = CMainManager::GetInput();
+		if (pInput[0].flag == 1) {
+			CStateManager::SetNextState(new CTitle());
+		}
 	}
 	
 	return 0;
@@ -319,6 +338,7 @@ int CGamePhaseWin :: Update(void){
 int CGamePhaseLose :: Update(void){
 	if(m_nFrameCount == 0){
 		m_pFinish->LinkList(OBJECT_2D_LOGO);
+		m_pWhistle->Play(true, false);
 	}
 	
 	if(m_nFrameCount == 120){
@@ -326,6 +346,7 @@ int CGamePhaseLose :: Update(void){
 		m_pLose->LinkList(OBJECT_2D_LOGO);
 		m_pPlayer->SetPlayerFace(FACE_BAD, 9999999);
 		m_pEnemy->SetEnemyFace(FACE_SMILE);
+		m_pFailed->Play(true, false);
 	}
 	
 	if((120 <= m_nFrameCount) && (m_nFrameCount < 135)){
@@ -335,10 +356,12 @@ int CGamePhaseLose :: Update(void){
 	m_pLose->SetPosition(&m_pos);
 	
 	++m_nFrameCount;
-	
-	const INPUT *pInput = CMainManager :: GetInput();
-	if(pInput[0].flag == 1){
-		CStateManager :: SetNextState(new CTitle());
+
+	if(m_nFrameCount > 300) {
+		const INPUT *pInput = CMainManager::GetInput();
+		if (pInput[0].flag == 1) {
+			CStateManager::SetNextState(new CTitle());
+		}
 	}
 	
 	return 0;
