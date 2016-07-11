@@ -50,13 +50,15 @@
 	1 カウントダウン
 	2 コンボ数
 	3 攻撃エフェクト
-	4 キャラクター
-	5 キャラクターフレーム, スコア, タイム
-	6 layout1
-	7 gage
-	8 backgage
-	9 panel
-	10 back_area
+	4 スコア, タイム
+	5 パネルエフェクト
+	6 キャラクター
+	7 キャラクターフレーム
+	8 layout1
+	9 gage
+	10 backgage
+	11 panel
+	12 back_area
 	
 	・ゲーム終了
 	0 fade

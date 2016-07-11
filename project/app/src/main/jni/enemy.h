@@ -47,6 +47,13 @@ class CEnemy {
 		void SetPanelManager(CPanelManager *pPM){
 			m_pPM = pPM;
 		}
+
+		bool IsLife0(void){
+			return (m_nLife > (250*LIFE_SCALE));
+		}
+
+		void SetEnemyFace(FACE_TYPE noFace);
+
 	private:
 		CEnemy();						// コンストラクタ
 		~CEnemy(){};					// デストラクタ

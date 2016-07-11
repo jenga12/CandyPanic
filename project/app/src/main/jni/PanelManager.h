@@ -71,9 +71,11 @@ class CPanelManager {
 	public:
 		static CPanelManager *Create(CPlayer *pPlayer, CEnemy *pEnemy);			// インスタンス生成
 		void Release(void);			// インスタンス破棄
-		void Update(void);			 // 更新処理
+		void Update(void);			    // 更新処理
 		void PaddingGray(int num);     // おじゃまを発生させる
-		void ClearPanel(void);		// パネル消去
+		void Fall(void);               // 落とす
+		void UpdateWin(void);          // 勝利時更新処理
+		void ClearAll(void);           // 全てのパネルを消す
 		
 	private:
 		CPanelManager();			// コンストラクタ

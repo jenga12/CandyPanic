@@ -42,6 +42,10 @@ class CPlayer{
 		int Update(float fDensity, bool bErase);		// 更新処理
 	
 		void SetPlayerFace(FACE_TYPE face, int frame);		// プレイヤーの表情を設定
+
+		bool IsLife0(void){
+			return (m_nLife == 0);
+		}
 		
 	private:
 		void Init(void);				// 初期化処理

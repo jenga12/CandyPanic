@@ -10,6 +10,7 @@
 #include "panel.h"
 #include "PanelManager.h"
 #include "Framework/2DAnimation.h"
+#include "Framework/MyMath.h"
 
 
 /******************************************************************************/
@@ -41,6 +42,7 @@ static const float PANEL_EFFECT_SCALE_TABLE[PANEL_ERASE_START_TIME] = {1.0f, 1.1
  */
 CPanel :: CPanel():
 C2DSprite(11),
+m_bEnd(false),
 m_bErase(false),
 m_bMove(false){
 	
@@ -88,6 +90,13 @@ void CPanel :: Update(void){
 		} else if((m_Move.y < 0.0f) && (m_pos.y < m_TargetPos.y)){
 			m_pos.y = m_TargetPos.y;
 			m_bMove = false;
+		}
+
+		if(!m_bMove && m_bEnd){
+			m_pos.x = (float)(CMath :: GetRand() % 1280);
+			m_TargetPos.x = m_pos.x;
+			m_pos.y = (float)(CMath :: GetRand() % 600) - 900.0f;
+			m_bMove = true;
 		}
 
 		C2DSprite :: SetPosition(&m_pos);

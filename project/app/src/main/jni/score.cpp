@@ -48,7 +48,7 @@ CScore *CScore :: Create(void){
 	Vec2 pos(52.0f, 635.0f);
 	Vec2 size(30.0f, 75.0f);
 	p->m_pScore = C2DNumber :: Create("game/number.img", &pos, &size, 28.0f, 4, 7, true, true);
-	
+	p->m_pScore->SetNumber(0);
 	return p;
 }
 

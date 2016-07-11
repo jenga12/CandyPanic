@@ -55,7 +55,9 @@ class CPanel : public C2DSprite {
 			m_Move = *pMove;
 			m_bMove = true;
 		}
-		
+		void End(void){
+			m_bEnd = true;
+		}
 		void Erase(CTextureManager *pPanelEffectTex);				// パネルを消去する
 		
 	private:
@@ -64,6 +66,7 @@ class CPanel : public C2DSprite {
 	
 		bool m_bMove;				// 移動フラグ
 		bool m_bErase;				// 削除フラグ
+		bool m_bEnd;               // ゲーム終了
 		Vec2 m_pos;					// 現在の表示位置
 		Vec2 m_TargetPos;			// 目的の表示位置
 		Vec2 m_Move;				// 移動量

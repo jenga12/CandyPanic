@@ -12,9 +12,12 @@
 #include "Framework/2DPolygon.h"
 #include "PanelManager.h"
 #include "Framework/MyMath.h"
+#include "Framework/sound.h"
 #include "timer.h"
 #include "player.h"
 #include "enemy.h"
+#include "Framework/MainManager.h"
+#include "title.h"
 
 
 /******************************************************************************/
@@ -51,7 +54,7 @@ CGame :: CGame(){
 * 内容：初期化処理
 */
 int CGame :: Init(void){
-    /*** ゲーム画面のレイアウトを構成 ***/
+    /*** ゲーム画面で使用するオブジェクトを全て生成 ***/
     Vec2 size(1024.0f, 1024.0f);
     Vec2 pos(640.0f, 360.0f);
     m_pBackground = C2DSprite :: Create("game/area_back.img", &size, 12);
@@ -123,7 +126,36 @@ int CGame :: Init(void){
     m_pEnemy->SetPanelManager(m_pPanelManager);
     m_pTimer = CTimer :: Create();
 
+	size = Vec2(128.0f, 256.0f);
+	pos = Vec2(640.0f, 360.0f);
+	m_apCountDown[0] = C2DSprite :: Create("game/3.img", &size, 1);
+	m_apCountDown[0]->SetPosition(&pos);
+	m_apCountDown[1] = C2DSprite :: Create("game/2.img", &size, 1);
+	m_apCountDown[1]->SetPosition(&pos);
+	m_apCountDown[2] = C2DSprite :: Create("game/1.img", &size, 1);
+	m_apCountDown[2]->SetPosition(&pos);
+	size = Vec2(1024.0f, 256.0f);
+	m_apCountDown[3] = C2DSprite :: Create("game/start.img", &size, 1);
+	m_apCountDown[3]->SetPosition(&pos);
+	
+	m_pFinish = C2DSprite :: Create("game/finish.img", &size, 1);
+	m_pFinish->SetPosition(&pos);
+	m_pLose = C2DSprite :: Create("game/lose.img", &size, 1);
+	m_pLose->SetPosition(&pos);
+	
+	size = Vec2(512.0f, 256.0f);
+	m_pWin = C2DSprite :: Create("game/win.img", &size, 1);
+	m_pWin->SetPosition(&pos);
+	
+	m_pSECountDown = CSound :: Create("countdown.wav");
 
+	
+	m_pPhaseCountDown = new CGamePhaseCountDown(m_apCountDown, m_pSECountDown);
+	m_pPhaseMain = new CGamePhaseMain(m_pPanelManager, m_pTimer, m_pPlayer, m_pEnemy);
+	m_pPhaseWin = new CGamePhaseWin(m_pWin, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy);
+	m_pPhaseLose = new CGamePhaseLose(m_pLose, m_pFinish, m_pPanelManager, m_pPlayer, m_pEnemy);
+	
+	m_pCurrentPhase = m_pPhaseCountDown;
 	return 0;
 }
 
@@ -146,6 +178,19 @@ void CGame :: Final(void){
 
     m_pEnemy->Release();
     m_pPlayer->Release();
+	
+	m_apCountDown[0]->Release();
+	m_apCountDown[1]->Release();
+	m_apCountDown[2]->Release();
+	m_apCountDown[3]->Release();
+	m_pFinish->Release();
+	m_pWin->Release();
+	m_pLose->Release();
+	
+	delete m_pPhaseCountDown;
+	delete m_pPhaseMain;
+	delete m_pPhaseWin;
+	delete m_pPhaseLose;
 }
 
 /*
@@ -154,17 +199,19 @@ void CGame :: Final(void){
  * 内容：更新処理
  */
 void CGame :: Update(void){
-    static unsigned int nFrameCount = 0;
-
-    ++nFrameCount;
-
-    if(nFrameCount == 60){
-        m_pPanelManager->PaddingGray(5);
-    }
-
-    m_pPanelManager->Update();
-    m_pTimer->Update();
-    m_pEnemy->Update();
+	int result = m_pCurrentPhase->Update();
+	
+	switch(result){
+		case 1:
+			m_pCurrentPhase = m_pPhaseMain;
+			break;
+		case 2:
+			m_pCurrentPhase = m_pPhaseWin;
+			break;
+		case 3:
+			m_pCurrentPhase = m_pPhaseLose;
+			break;
+	}
 }
 
 /*
@@ -183,4 +230,116 @@ void CGame :: Pause(void){
  */
 void CGame :: Resume(void){
 	
+}
+
+//*************************************************
+//			 各フェーズクラスの更新処理
+//*************************************************
+int CGamePhaseCountDown :: Update(void){
+	
+	if(m_nFrameCount == 0){
+		m_ppCountDown[0]->LinkList(OBJECT_2D_COUNTDOWN);
+		m_pSECountDown->Play();
+	}
+	
+	++m_nFrameCount;
+	
+	if(m_nFrameCount == 240){
+		m_ppCountDown[3]->UnlinkList();
+		return 1;
+	}
+	
+	if((m_nFrameCount % 60) == 0){
+		m_ppCountDown[(m_nFrameCount/60) - 1]->UnlinkList();
+		m_ppCountDown[m_nFrameCount/60]->LinkList(OBJECT_2D_COUNTDOWN);
+	}
+	
+	return 0;
+}
+
+int CGamePhaseMain :: Update(void){
+	m_pPanelManager->Update();
+	m_pTimer->Update();
+	m_pEnemy->Update();
+	
+	/*** 負けた ***/
+	if(m_pPlayer->IsLife0()){
+		return 3;
+	}
+	
+	/*** 勝った ***/
+	if(m_pEnemy->IsLife0()){
+		return 2;
+	}
+	
+	return 0;
+}
+
+int CGamePhaseWin :: Update(void){
+	if(m_nFrameCount == 0){
+		m_pFinish->LinkList(OBJECT_2D_LOGO);
+		m_pPanelManager->ClearAll();
+	}
+	
+	if(m_nFrameCount == 120){
+		m_pFinish->UnlinkList();
+		m_pPlayer->SetPlayerFace(FACE_SMILE, 9999999);
+		m_pEnemy->SetEnemyFace(FACE_BAD);
+	}
+	
+	if((120 <= m_nFrameCount) && (m_nFrameCount < 135)){
+		m_pos.y += 30.0f;
+	} else {
+		m_fMove += 1.0f;
+		m_pos.y += m_fMove;
+		if((int)m_fMove == 20){
+			m_fMove = -21.0f;
+		}
+	}
+	
+	if(m_nFrameCount == 120){
+		m_pPanelManager->Fall();
+		m_pWin->LinkList(OBJECT_2D_LOGO);
+		
+	}
+
+	m_pPanelManager->UpdateWin();
+	m_pWin->SetPosition(&m_pos);
+	
+	++m_nFrameCount;
+	
+	const INPUT *pInput = CMainManager :: GetInput();
+	if(pInput[0].flag == 1){
+		CStateManager :: SetNextState(new CTitle());
+	}
+	
+	return 0;
+}
+
+int CGamePhaseLose :: Update(void){
+	if(m_nFrameCount == 0){
+		m_pFinish->LinkList(OBJECT_2D_LOGO);
+	}
+	
+	if(m_nFrameCount == 120){
+		m_pFinish->UnlinkList();
+		m_pLose->LinkList(OBJECT_2D_LOGO);
+		m_pPlayer->SetPlayerFace(FACE_BAD, 9999999);
+		m_pEnemy->SetEnemyFace(FACE_SMILE);
+	}
+	
+	if((120 <= m_nFrameCount) && (m_nFrameCount < 135)){
+		m_pos.y += 30.0f;
+	}
+	
+	m_pLose->SetPosition(&m_pos);
+	
+	++m_nFrameCount;
+	
+	const INPUT *pInput = CMainManager :: GetInput();
+	if(pInput[0].flag == 1){
+		CStateManager :: SetNextState(new CTitle());
+	}
+	
+	return 0;
 }

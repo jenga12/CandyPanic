@@ -167,7 +167,6 @@ int CPlayer :: Update(float fDensity, bool bErase) {
 
 	if(m_nLife > LIFE_SCALE * 250){
 		m_nLife = 0;
-		return 1;
 	}
 	
 	Vec2 pos(-105.0f + nDensity, 431.0f);

@@ -42,6 +42,7 @@ enum _2D_OBJECT {
 	OBJECT_2D_COMBO,               // コンボ数
 	OBJECT_2D_ATTACK_EFFECT,      // 攻撃エフェクト
 	OBJECT_2D_NUMBER,              // 数字スプライト
+	OBJECT_2D_COUNTDOWN,           // カウントダウン
 	OBJECT_2D_GAGE,                 // ゲージ
 
 	MAX_2D_OBJECT
@@ -62,7 +63,9 @@ class C2DObject {
 
 		void LinkList(_2D_OBJECT objType);		    // リストにオブジェクトを追加する
 		void UnlinkList(void);					    // リストからオブジェクトを除去する
-
+		bool IsList(void){
+			return m_bList;
+		}
 		static C2DObject *GetFirst(_2D_OBJECT objType){	// リストの先頭取得
 			return m_apFirst[objType];
 		}

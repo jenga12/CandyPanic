@@ -128,6 +128,7 @@ void CPanelManager :: Release(void){
 	for(int i = 0; i < FIELD_LINE; ++i){
 		for(int j = 0; j < FIELD_ROW; ++j){
 			m_apPanel[j][i]->Release();			// テクスチャは勝手に破棄される
+			m_apPanel[j][i]->SetTextureManager(NULL);
 		}
 	}
 	
@@ -225,7 +226,7 @@ void CPanelManager :: Update(void) {
 
 						for(int k = 0; k < ATTACK_EFFECT_MAX; ++k){
 							if(!(m_apAttack[k]->Use())){
-								m_apAttack[k]->Start(&pos, (count * m_nCombo) / 3);
+								m_apAttack[k]->Start(&pos, (count * m_nCombo) / 1);
 								break;
 							}
 						}
@@ -382,6 +383,67 @@ void CPanelManager :: Update(void) {
 	}
 
 	m_pPlayer->Update((float)count / (float)(FIELD_ROW * FIELD_LINE), bErase);
+}
+
+/*
+ * クラス名：CPanelManager
+ * 関数名：Fall()
+ * 内容：パネルを全てフィールドから落とす
+ */
+void CPanelManager :: Fall(void){
+	for(int i = 0; i < FIELD_ROW; ++i){
+		for(int j = 0; j < FIELD_LINE; ++j){
+			Vec2 pos(CMath :: GetRand() % 1280, -600.0f - (CMath :: GetRand() % 2000));
+			Vec2 target(pos.x, 900);
+			Vec2 move(0.0f, 25.0f);
+			m_apPanel[i][j]->SetPosition(&pos);
+			m_apPanel[i][j]->SetTarget(&target, &move);
+
+			if(!(m_apPanel[i][j]->IsList())){
+				m_apPanel[i][j]->LinkList(OBJECT_2D_PANEL);
+			}
+
+			m_apPanel[i][j]->End();
+			m_apPanel[i][j]->SetPriority(2);
+		}
+	}
+}
+/*
+ * クラス名：CPanelManager
+ * 関数名：ClearAll()
+ * 内容：すべてのパネルを消す
+ */
+void CPanelManager :: ClearAll(void){
+	for(int i = 0; i < FIELD_ROW; ++i){
+		for(int j = 0; j < FIELD_LINE; ++j) {
+			if(m_aField[i][j] == PANEL_GRAY){
+				m_apPanel[i][j]->Erase(m_pTexGrayEffect);
+			} else if((m_aField[i][j] != PANEL_NONE) && (m_aField[i][j] != PANEL_BLOCK)){
+				m_apPanel[i][j]->Erase(m_apTexEffect[m_aField[i][j]]);
+			}
+		}
+	}
+}
+
+/*
+ * クラス名：CPanelManager
+ * 関数名：UpdateWin()
+ * 内容：勝利時の更新処理
+ */
+void CPanelManager :: UpdateWin(void){
+	for(int i = 0; i < FIELD_ROW; ++i){
+		for(int j = 0; j < FIELD_LINE; ++j){
+			m_apPanel[i][j]->Update();
+		}
+	}
+
+	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
+		m_apAttack[i]->Update();
+	}
+
+	for(int i = 0; i < 3; ++i){
+		m_apCombo[i]->Update();
+	}
 }
 
 /*
@@ -1003,20 +1065,4 @@ void CPanelManager :: CreatePanel(int x, int y){
 	char PanelColor = CMath :: GetRand() % PANEL_COLOR_NUM;
 	m_aField[x][y] = PanelColor;
 	m_apPanel[x][y]->SetTextureManager(m_apTexPanel[PanelColor]);
-}
-
-/*
- * クラス名：CPanelManager
- * 関数名：ClearPanel()
- * 内容：パネルすべてを消去
- */
-void CPanelManager :: ClearPanel(void){
-	for(int i = 0; i < FIELD_ROW; ++i){
-		for(int j = 0; j < FIELD_LINE; ++j){
-			if(m_aField[i][j] != PANEL_BLOCK){
-				m_aField[i][j] = PANEL_NONE;
-				m_apPanel[i][j]->UnlinkList();
-			}
-		}
-	}
 }

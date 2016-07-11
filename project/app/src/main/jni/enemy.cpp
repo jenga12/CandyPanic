@@ -230,9 +230,19 @@ int CEnemy :: Damage(int num){
 	Vec2 TexSize(0.25f, 0.5f);
 	m_pIcon->SetTexCoord(&g_FaceUV[FACE_BAD], &TexSize);
 	
-	if(m_nLife > 250 * LIFE_SCALE){
+	if(m_nLife > (250 * LIFE_SCALE)){
 		return 1;
 	}
 	
 	return 0;
+}
+
+/*
+ * クラス名：CEnemy
+ * 関数名：SetEnemyFace()
+ * 内容：敵の表情を変更
+ */
+void CEnemy :: SetEnemyFace(FACE_TYPE face){
+	Vec2 TexSize(0.25f, 0.5f);
+	m_pIcon->SetTexCoord(&g_FaceUV[face], &TexSize);
 }
