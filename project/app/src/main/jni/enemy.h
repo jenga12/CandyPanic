@@ -65,7 +65,7 @@ class CEnemy {
 		unsigned short m_nLife;			// ライフ
 	
 		static const unsigned short LIFE_SCALE = 4;
-		static const unsigned short ATTACK_INTERVAL_AVERAGE = 420;	// 平均攻撃間隔
+		static const unsigned short ATTACK_INTERVAL_AVERAGE = 390;	// 平均攻撃間隔
 };
 
 /******************************************************************************/

@@ -45,7 +45,7 @@ static const PANEL_COLOR PANEL_COLOR_NUM = 4;	// パネルの色数
 static const PANEL_COLOR PANEL_GRAY = 125;		// おじゃまパネル
 static const PANEL_COLOR PANEL_BLOCK = 127;		// ブロック
 
-static const char PANEL_ERASE_TERM = 5;			// いくつ以上繋がればパネルを消すか
+static const char PANEL_ERASE_TERM = 4;			// いくつ以上繋がればパネルを消すか
 
 static const unsigned char ATTACK_EFFECT_MAX = 30;            // 最大同時攻撃エフェクト数
 

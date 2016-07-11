@@ -205,7 +205,7 @@ void CPanelManager :: Update(void) {
 
 						for(int k = 0; k < ATTACK_EFFECT_MAX; ++k){
 							if(!(m_apAttack[k]->Use())){
-								m_apAttack[k]->Start(&pos, (count * m_nCombo) >> 1);
+								m_apAttack[k]->Start(&pos, (count * m_nCombo) / 3);
 								break;
 							}
 						}

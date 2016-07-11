@@ -183,7 +183,7 @@ void CEnemy :: Update(void){
 		
 		Vec2 TexSize(0.25f, 0.5f);
 		m_pIcon->SetTexCoord(&g_FaceUV[FACE_ANGRY], &TexSize);
-		m_pPM->PaddingGray((CMath :: GetRand() % 7) + 5);
+		m_pPM->PaddingGray((CMath :: GetRand() % 7) + 7);
 	}
 	
 	/*** 攻撃表情の変化判定 ***/
