@@ -36,7 +36,8 @@
  *	コンストラクタ
  */
 C2DSingleNumber :: C2DSingleNumber(unsigned int nPriority) :
-		C2DSprite(nPriority){
+		C2DSprite(nPriority),
+m_bList(false){
 
 }
 
@@ -53,7 +54,7 @@ C2DSingleNumber *C2DSingleNumber :: Create(const char *pTexFileName, const Vec2 
 	C2DSingleNumber *p = new C2DSingleNumber(nPriority);
 
 	p->Init(pTexFileName, pSize);
-	p->LinkList(OBJECT_2D_NUMBER);
+	//p->LinkList();
 	p->SetPosition(pPos);
 
 	Vec2 v1(0.0f, 0.0f);
@@ -113,6 +114,7 @@ int C2DNumber :: Init(const char *pTexFileName, const Vec2 *pPos, const Vec2 *pD
 	/*** ワークの確保 ***/
 	m_pNumber = new char[m_nDigit];
 	m_ppSingleNumber = new C2DSingleNumber*[m_nDigit];
+	m_DigitSize = *pDigitSize;
 
 	Vec2 pos(pPos->x + (pDigitSize->x * 0.5f), pPos->y + (pDigitSize->y * 0.5f));
 
@@ -163,7 +165,7 @@ void C2DNumber :: SetNumber(unsigned int num){
 			m_ppSingleNumber[count]->SetNumber(-1);
 		}
 
-		/*** 右詰め0詰め ***/
+	/*** 右詰め0詰め ***/
 	} else if(m_bZero){
 		for(int i = 0; i < m_nDigit; ++i){
 			m_ppSingleNumber[i]->SetNumber(m_pNumber[i]);
@@ -171,15 +173,18 @@ void C2DNumber :: SetNumber(unsigned int num){
 
 		/*** 右詰めのみ ***/
 	} else {
-		int count = 0;
+		int count = 0;/*
 		for(int i = 0; i < (m_nDigit - nDigit); ++i){
 			m_ppSingleNumber[i]->SetNumber(-1);
-		}
-		for(int i = m_nDigit - nDigit - 1; i < m_nDigit; ++i){
-			m_ppSingleNumber[i]->SetNumber(m_pNumber[i]);
+		}*/
+		for(int i = 0; i < m_nDigit; ++i) {
+			if ((m_pNumber[i] == 0) && (i != (m_nDigit - 1))) {
+				m_ppSingleNumber[i]->SetNumber(-1);
+			} else {
+				m_ppSingleNumber[i]->SetNumber(m_pNumber[i]);
+			}
 		}
 	}
-
 }
 
 /*

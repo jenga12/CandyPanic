@@ -16,6 +16,7 @@
 #include "Framework/MainManager.h"
 #include "player.h"
 #include "attack.h"
+#include "combo.h"
 #include <math.h>
 
 
@@ -111,6 +112,10 @@ int CPanelManager :: Init(CEnemy *pEnemy){
 	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
 		m_apAttack[i] = CAttack :: Create(pEnemy);
 	}
+
+	m_apCombo[0] = CCombo :: Create();
+	m_apCombo[1] = CCombo :: Create();
+	m_apCombo[2] = CCombo :: Create();
 }
 
 /*
@@ -136,6 +141,14 @@ void CPanelManager :: Release(void){
 	m_pTexGrayEffect->Release();
 	m_pScore->Release();
 	m_pGyro->Release();
+
+	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
+		m_apAttack[i]->Release();
+	}
+
+	m_apCombo[0]->Release();
+	m_apCombo[1]->Release();
+	m_apCombo[2]->Release();
 }
 
 /*
@@ -201,6 +214,13 @@ void CPanelManager :: Update(void) {
 								m_nCombo = 1;
 							}
 							bFirst = false;
+
+							for(int k = 0; k < 3; ++k){
+								if(!(m_apCombo[k]->Use())){
+									m_apCombo[k]->Pop(&pos, m_nCombo);
+									break;
+								}
+							}
 						}
 
 						for(int k = 0; k < ATTACK_EFFECT_MAX; ++k){
@@ -354,6 +374,11 @@ void CPanelManager :: Update(void) {
 	/*** 攻撃エフェクトの更新 ***/
 	for(int i = 0; i < ATTACK_EFFECT_MAX; ++i){
 		m_apAttack[i]->Update();
+	}
+
+	/*** コンボ表記の更新 ***/
+	for(int i = 0; i < 3; ++i){
+		m_apCombo[i]->Update();
 	}
 
 	m_pPlayer->Update((float)count / (float)(FIELD_ROW * FIELD_LINE), bErase);

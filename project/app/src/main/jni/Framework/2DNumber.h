@@ -41,14 +41,20 @@ class C2DSingleNumber : public C2DSprite {
 		/*** 描画数字を設定 ***/
 		void SetNumber(int num){
 			if(num < 0){
-				Color_32 color(1.0f, 1.0f, 1.0f, 1.0f);
-				C2DSprite :: SetColor(&color);
+				C2DSprite :: UnlinkList();
+				m_bList = false;
 			} else {
-				Color_32 color(1.0f, 1.0f, 1.0f, 1.0f);
 				Vec2 v1((float)num / 10.0f, 0.0f);
 				Vec2 v2(0.1f, 1.0f);
-				C2DSprite :: SetColor(&color);
+				C2DObject :: LinkList(OBJECT_2D_NUMBER);
 				C2DSprite :: SetTexCoord(&v1, &v2);
+				m_bList = true;
+			}
+		}
+
+		void LinkList(void){
+			if(m_bList){
+				C2DObject::LinkList(OBJECT_2D_NUMBER);
 			}
 		}
 
@@ -56,7 +62,7 @@ class C2DSingleNumber : public C2DSprite {
 		C2DSingleNumber(unsigned int nPriority);
 		~C2DSingleNumber(){};
 
-
+		bool m_bList;
 
 };
 
@@ -68,6 +74,33 @@ class C2DNumber {
 		                             int nDigit, bool bRight, bool bZero);
 		void Release(void);					// インスタンス破棄
 		void SetNumber(unsigned int num);		// 描画数字を設定する
+
+		void LinkList(void){
+			for(int i = 0; i < m_nDigit; ++i) {
+				m_ppSingleNumber[i]->LinkList();
+			}
+		}
+
+		void UnlinkList(void){
+			for(int i = 0; i < m_nDigit; ++i){
+				m_ppSingleNumber[i]->UnlinkList();
+			}
+		}
+
+		void SetPosition(const Vec2 *pPos){
+			Vec2 pos = *pPos + (m_DigitSize * 0.5f);
+
+			for(int i = 0; i < m_nDigit; ++i){
+				m_ppSingleNumber[i]->SetPosition(&pos);
+				pos.x += m_DigitSize.x;
+			}
+		}
+
+		void SetColor(Color_32 *pColor){
+			for(int i = 0; i < m_nDigit; ++i){
+				m_ppSingleNumber[i]->SetColor(pColor);
+			}
+		}
 
 	protected:
 		C2DNumber(bool bZero, bool bRight, int nDigit);	// コンストラクタ
@@ -84,6 +117,7 @@ class C2DNumber {
 		unsigned int m_nNumber;				// 描画する数字
 		C2DSingleNumber **m_ppSingleNumber;		// １桁描画クラスワーク
 		bool m_bZero;							// ０詰めフラグ
+		Vec2 m_DigitSize;
 		bool m_bRight;							// 右詰めフラグ
 };
 

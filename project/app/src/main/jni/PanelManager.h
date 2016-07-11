@@ -65,6 +65,7 @@ class CScore;
 class CPlayer;
 class CAttack;
 class CEnemy;
+class CCombo;
 
 class CPanelManager {
 	public:
@@ -117,6 +118,8 @@ class CPanelManager {
 		unsigned int m_nCombo;                                    // コンボ数
 		unsigned int m_nGrayRemain;                               // 出現させられていないおじゃまの残り
 		CAttack *m_apAttack[ATTACK_EFFECT_MAX];                     // 攻撃エフェクト
+
+		CCombo *m_apCombo[3];                                          // コンボ数
 };
 
 
