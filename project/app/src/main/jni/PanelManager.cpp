@@ -215,6 +215,7 @@ void CPanelManager :: Update(void) {
 						pos = Vec2(LeftTopPanelPos.x + PANEL_INTERVAL * i,
 						           LeftTopPanelPos.y + PANEL_INTERVAL * j);
 						move = true;
+						bErase = true;
 
 						/*** コンボ処理 ***/
 						if(bFirst){
@@ -952,28 +953,28 @@ void CPanelManager :: SlideUp(void){
  */
 int CPanelManager :: PanelCount(int x, int y, PANEL_COLOR color, int count){
 	/*** 左側が同じ色ならば再帰呼び出し ***/
-	if((x > 0) && m_bCheckFlag[x-1][y] && (m_aField[x-1][y] == color)){
+	if((x > 0) && m_bCheckFlag[x-1][y] && (!(m_apPanel[x-1][y]->IsMove())) && (m_aField[x-1][y] == color)){
 		++count;
 		m_bCheckFlag[x-1][y] = false;
 		count = PanelCount(x-1, y, color, count);
 	}
 	
 	/*** 右側が同じ色ならば再帰呼び出し ***/
-	if(((x + 1) < FIELD_ROW) && m_bCheckFlag[x+1][y] && (m_aField[x+1][y] == color)){
+	if(((x + 1) < FIELD_ROW) && m_bCheckFlag[x+1][y] && (!(m_apPanel[x+1][y]->IsMove())) && (m_aField[x+1][y] == color)){
 		++count;
 		m_bCheckFlag[x+1][y] = false;
 		count = PanelCount(x+1, y, color, count);
 	}
 	
 	/*** 上側が同じ色ならば再帰呼び出し ***/
-	if((y > 0) && m_bCheckFlag[x][y-1] && (m_aField[x][y-1] == color)){
+	if((y > 0) && m_bCheckFlag[x][y-1] && (!(m_apPanel[x][y-1]->IsMove())) && (m_aField[x][y-1] == color)){
 		++count;
 		m_bCheckFlag[x][y-1] = false;
 		count = PanelCount(x, y-1, color, count);
 	}
 	
 	/*** 下側が同じ色ならば再帰呼び出し ***/
-	if(((y + 1) < FIELD_LINE) && m_bCheckFlag[x][y+1] &&  (m_aField[x][y+1] == color)){
+	if(((y + 1) < FIELD_LINE) && m_bCheckFlag[x][y+1] && (!(m_apPanel[x][y+1]->IsMove())) && (m_aField[x][y+1] == color)){
 		++count;
 		m_bCheckFlag[x][y+1] = false;
 		count = PanelCount(x, y+1, color, count);
@@ -993,7 +994,7 @@ int CPanelManager :: PanelCount(int x, int y, PANEL_COLOR color, int count){
  */
 void CPanelManager :: PanelErase(int x, int y, PANEL_COLOR color){
 	/*** 左側のパネルを判定するか ***/
-	if((x > 0) && m_bCheckFlag[x-1][y]){
+	if((x > 0) && m_bCheckFlag[x-1][y] && (!(m_apPanel[x-1][y]->IsMove()))){
 		
 		/*** 左側のパネルが同じ色 ***/
 		if(m_aField[x-1][y] == color){
@@ -1011,7 +1012,7 @@ void CPanelManager :: PanelErase(int x, int y, PANEL_COLOR color){
 	}
 	
 	/*** 右側のパネルを判定するか ***/
-	if(((x + 1) < FIELD_ROW) && m_bCheckFlag[x+1][y]){
+	if(((x + 1) < FIELD_ROW) && m_bCheckFlag[x+1][y] && (!(m_apPanel[x+1][y]->IsMove()))){
 		
 		/*** 右側のパネルが同じ色 ***/
 		if(m_aField[x+1][y] == color){
@@ -1029,7 +1030,7 @@ void CPanelManager :: PanelErase(int x, int y, PANEL_COLOR color){
 	}
 	
 	/*** 上側のパネルを判定するか ***/
-	if((y > 0) && m_bCheckFlag[x][y-1]){
+	if((y > 0) && m_bCheckFlag[x][y-1] && (!(m_apPanel[x][y-1]->IsMove()))){
 		
 		/*** 上側のパネルが同じ色 ***/
 		if(m_aField[x][y-1] == color){
@@ -1047,7 +1048,7 @@ void CPanelManager :: PanelErase(int x, int y, PANEL_COLOR color){
 	}
 	
 	/*** 下側が同じ色ならば再帰呼び出し ***/
-	if(((y + 1) < FIELD_LINE) && m_bCheckFlag[x][y+1]){
+	if(((y + 1) < FIELD_LINE) && m_bCheckFlag[x][y+1] && (!(m_apPanel[x][y+1]->IsMove()))){
 		
 		/*** 下側のパネルが同じ色 ***/
 		if(m_aField[x][y+1] == color){

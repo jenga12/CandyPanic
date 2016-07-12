@@ -188,7 +188,7 @@ void CEnemy :: Update(void){
 	
 	/*** 攻撃表情の変化判定 ***/
 	if(m_nFaceFrameCount){
-		if(++m_nFaceFrameCount == 75){
+		if(++m_nFaceFrameCount == 60){
 			Vec2 TexSize(0.25f, 0.5f);
 			m_pIcon->SetTexCoord(&g_FaceUV[m_nCurrentFace], &TexSize);
 			m_nFaceFrameCount = 0;

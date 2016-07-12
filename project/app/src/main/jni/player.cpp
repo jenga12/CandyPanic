@@ -196,7 +196,7 @@ int CPlayer :: Update(float fDensity, bool bErase) {
 		}
 	}
 
-	if(m_nLife > LIFE_SCALE * 250){
+	if((m_nLife > LIFE_SCALE * 250) || (m_nLife == 0)){
 		m_nLife = 0;
 		m_pAlarm->Pause();
 	}
